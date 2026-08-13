@@ -310,3 +310,26 @@ const CardManager = (function() {
 })();
 
 window.CardManager = CardManager;
+
+// ============================================================
+//  CARD MANAGER – with glow effect based on mood
+// ============================================================
+// ... (بقیه کد مانند قبل) ...
+
+// در متد updatePreview، بعد از اعمال رنگ حاشیه، یک افکت نورانی هم اضافه می‌کنیم:
+const moodColors = {
+  happy: '#f093fb',
+  kind: '#4facfe',
+  angry: '#f5576c',
+  bored: '#a8a8b8',
+  love: '#ff6b81',
+  sad: '#4a69bd',
+  excited: '#f9ca24',
+  calm: '#7ed6df'
+};
+const glowColor = moodColors[state.mood] || '#f5576c';
+previewEl.style.boxShadow = `
+  0 ${state.shadow}px ${state.shadow*2}px rgba(0,0,0,0.4),
+  0 0 30px ${glowColor}30,
+  0 0 60px ${glowColor}15
+`;
