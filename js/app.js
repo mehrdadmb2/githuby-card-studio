@@ -1,6 +1,6 @@
 // ============================================================
 //  APP – Main entry point, orchestrates all modules
-//  Version 2.0 – with Donate, Share, Animations & Advanced UI
+//  Version 2.1 – with Donate, Share, Animations & Clear Warnings
 // ============================================================
 (async function() {
   'use strict';
@@ -45,55 +45,131 @@
 
   // --- Donate Section (initially hidden, shown on button click) ---
   donateContainer.innerHTML = `
-    <div id="donateModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); z-index:9999; display:flex; align-items:center; justify-content:center;">
-      <div style="background:rgba(20,20,35,0.95); border-radius:32px; padding:30px; max-width:500px; width:90%; max-height:80vh; overflow-y:auto; border:1px solid rgba(255,255,255,0.1); box-shadow:0 30px 80px rgba(0,0,0,0.8); position:relative;">
-        <button id="closeDonateModal" style="position:absolute; top:12px; right:16px; background:none; border:none; color:#fff; font-size:1.8rem; cursor:pointer;">&times;</button>
-        <h2 style="color:#fff; margin-bottom:20px;"><i class="fas fa-heart" style="color:#f5576c;"></i> Support the Project</h2>
-        <p style="color:#aaa; margin-bottom:20px;">If you enjoy using PostCard Pro Studio, consider donating to keep the project alive! 🙏</p>
+    <div id="donateModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); backdrop-filter:blur(10px); z-index:9999; display:flex; align-items:center; justify-content:center;">
+      <div style="background:rgba(20,20,35,0.96); border-radius:32px; padding:30px; max-width:550px; width:92%; max-height:80vh; overflow-y:auto; border:1px solid rgba(255,255,255,0.1); box-shadow:0 30px 80px rgba(0,0,0,0.9); position:relative;">
+        <button id="closeDonateModal" style="position:absolute; top:12px; right:16px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; opacity:0.6; transition:0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">&times;</button>
+        <h2 style="color:#fff; margin-bottom:16px;"><i class="fas fa-heart" style="color:#f5576c;"></i> Support the Project</h2>
+        <p style="color:#aaa; margin-bottom:16px; font-size:0.9rem;">If you enjoy using PostCard Pro Studio, consider donating to keep the project alive! 🙏</p>
+        
+        <!-- ⚠️ WARNING -->
+        <div style="background:rgba(255,0,0,0.1); border-left:4px solid #ff4444; padding:10px 14px; border-radius:8px; margin-bottom:18px;">
+          <p style="color:#ff6b6b; font-size:0.85rem; margin:0;">
+            <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Send <strong>only</strong> the specified token to each address. 
+            Sending the wrong token (e.g., sending ETH to a BTC address) will result in <strong>permanent loss</strong> of funds.
+          </p>
+        </div>
+
         <div style="display:flex; flex-direction:column; gap:12px;">
-          <!-- Donation addresses -->
+          <!-- BTC -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fab fa-bitcoin" style="color:#f7931a; font-size:1.8rem; width:32px;"></i>
-            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="btc-address">bc1q6knq0g4w9axt7t204y3e4hk4kz4zkh8vxj2e3a</span>
-            <button class="copyAddress" data-address="btc-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <span style="color:#fff; font-weight:600; font-size:0.9rem;">Bitcoin (BTC)</span>
+                <span style="background:rgba(247,147,26,0.2); color:#f7931a; padding:1px 10px; border-radius:30px; font-size:0.7rem;">Network: BTC</span>
+              </div>
+              <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="btc-address">bc1q6knq0g4w9axt7t204y3e4hk4kz4zkh8vxj2e3a</span>
+            </div>
+            <button class="copyAddress" data-address="btc-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
+
+          <!-- ETH -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fab fa-ethereum" style="color:#627eea; font-size:1.8rem; width:32px;"></i>
-            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="eth-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
-            <button class="copyAddress" data-address="eth-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <span style="color:#fff; font-weight:600; font-size:0.9rem;">Ethereum (ETH)</span>
+                <span style="background:rgba(98,126,234,0.2); color:#627eea; padding:1px 10px; border-radius:30px; font-size:0.7rem;">Network: ERC-20</span>
+              </div>
+              <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="eth-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
+            </div>
+            <button class="copyAddress" data-address="eth-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
+
+          <!-- SOL -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fab fa-solana" style="color:#9945ff; font-size:1.8rem; width:32px;"></i>
-            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="sol-address">7otC7qwCWqmrzbVA3XykjsZHbuKgrqaP2hE25NnByRDP</span>
-            <button class="copyAddress" data-address="sol-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <span style="color:#fff; font-weight:600; font-size:0.9rem;">Solana (SOL)</span>
+                <span style="background:rgba(153,69,255,0.2); color:#9945ff; padding:1px 10px; border-radius:30px; font-size:0.7rem;">Network: Solana</span>
+              </div>
+              <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="sol-address">7otC7qwCWqmrzbVA3XykjsZHbuKgrqaP2hE25NnByRDP</span>
+            </div>
+            <button class="copyAddress" data-address="sol-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
+
+          <!-- TRON (TRX) -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fab fa-tron" style="color:#ef4444; font-size:1.8rem; width:32px;"></i>
-            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="tron-address">TGYN1zzeGUjuXipVPvS4gTUivQyAu7GNUm</span>
-            <button class="copyAddress" data-address="tron-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <span style="color:#fff; font-weight:600; font-size:0.9rem;">Tron (TRX)</span>
+                <span style="background:rgba(239,68,68,0.2); color:#ef4444; padding:1px 10px; border-radius:30px; font-size:0.7rem;">Network: TRC-20</span>
+              </div>
+              <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="tron-address">TGYN1zzeGUjuXipVPvS4gTUivQyAu7GNUm</span>
+            </div>
+            <button class="copyAddress" data-address="tron-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
+
+          <!-- BNB (BSC) -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
-            <i class="fas fa-coins" style="color:#ffd700; font-size:1.8rem; width:32px;"></i>
-            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="bnb-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
-            <button class="copyAddress" data-address="bnb-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+            <i class="fas fa-coins" style="color:#f0b90b; font-size:1.8rem; width:32px;"></i>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <span style="color:#fff; font-weight:600; font-size:0.9rem;">BNB (BSC)</span>
+                <span style="background:rgba(240,185,11,0.2); color:#f0b90b; padding:1px 10px; border-radius:30px; font-size:0.7rem;">Network: BEP-20</span>
+              </div>
+              <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="bnb-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
+            </div>
+            <button class="copyAddress" data-address="bnb-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
+
+          <!-- Polygon (MATIC) -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fas fa-hexagon" style="color:#8247e5; font-size:1.8rem; width:32px;"></i>
-            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="polygon-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
-            <button class="copyAddress" data-address="polygon-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <span style="color:#fff; font-weight:600; font-size:0.9rem;">Polygon (MATIC)</span>
+                <span style="background:rgba(130,71,229,0.2); color:#8247e5; padding:1px 10px; border-radius:30px; font-size:0.7rem;">Network: Polygon</span>
+              </div>
+              <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="polygon-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
+            </div>
+            <button class="copyAddress" data-address="polygon-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
+
+          <!-- TRC20 (USDT) – if you want to specify USDT -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fas fa-qrcode" style="color:#26a17b; font-size:1.8rem; width:32px;"></i>
-            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="trc20-address">TYbqxzEWrvYPnLvGtk6JY6Sbh8DMqfjcYq</span>
-            <button class="copyAddress" data-address="trc20-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <span style="color:#fff; font-weight:600; font-size:0.9rem;">USDT (TRC-20)</span>
+                <span style="background:rgba(38,161,123,0.2); color:#26a17b; padding:1px 10px; border-radius:30px; font-size:0.7rem;">Network: TRC-20</span>
+              </div>
+              <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="trc20-address">TYbqxzEWrvYPnLvGtk6JY6Sbh8DMqfjcYq</span>
+            </div>
+            <button class="copyAddress" data-address="trc20-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
+
+          <!-- TON -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fas fa-qrcode" style="color:#8b5cf6; font-size:1.8rem; width:32px;"></i>
-            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="ton-address">UQBQU9KnjwIsdSGwG08b3L43Vy_wPlCg_3FaK9m4N2Toj84k</span>
-            <button class="copyAddress" data-address="ton-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <span style="color:#fff; font-weight:600; font-size:0.9rem;">TON Coin</span>
+                <span style="background:rgba(139,92,246,0.2); color:#8b5cf6; padding:1px 10px; border-radius:30px; font-size:0.7rem;">Network: TON</span>
+              </div>
+              <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="ton-address">UQBQU9KnjwIsdSGwG08b3L43Vy_wPlCg_3FaK9m4N2Toj84k</span>
+            </div>
+            <button class="copyAddress" data-address="ton-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
         </div>
-        <p style="color:#666; margin-top:16px; font-size:0.7rem; text-align:center;">Thank you for your support! ❤️</p>
+
+        <p style="color:#666; margin-top:18px; font-size:0.7rem; text-align:center; border-top:1px solid rgba(255,255,255,0.05); padding-top:14px;">
+          <i class="fas fa-shield-alt"></i> All donations are directly sent to the provided addresses. 
+          We never store or request your private keys.
+        </p>
+        <p style="color:#444; margin-top:6px; font-size:0.65rem; text-align:center;">Thank you for your support! ❤️</p>
       </div>
     </div>
   `;
@@ -116,16 +192,21 @@
     }
   });
 
-  // Copy address function
+  // Copy address function with feedback
   document.querySelectorAll('.copyAddress').forEach(btn => {
     btn.addEventListener('click', function() {
       const id = this.dataset.address;
       const span = document.getElementById(id);
       if (span) {
-        navigator.clipboard.writeText(span.textContent).then(() => {
+        const address = span.textContent.trim();
+        navigator.clipboard.writeText(address).then(() => {
           const original = this.textContent;
           this.textContent = '✓ Copied!';
-          setTimeout(() => { this.textContent = original; }, 1500);
+          this.style.color = '#4caf50';
+          setTimeout(() => {
+            this.textContent = original;
+            this.style.color = '#aaa';
+          }, 2000);
         }).catch(() => {
           // fallback
           const range = document.createRange();
@@ -135,7 +216,11 @@
           document.execCommand('copy');
           const original = this.textContent;
           this.textContent = '✓ Copied!';
-          setTimeout(() => { this.textContent = original; }, 1500);
+          this.style.color = '#4caf50';
+          setTimeout(() => {
+            this.textContent = original;
+            this.style.color = '#aaa';
+          }, 2000);
         });
       }
     });
@@ -483,6 +568,6 @@
     MapManager.invalidateSize();
   }, 400);
 
-  console.log('🚀 PostCard Pro Studio v2.0 loaded successfully!');
-  console.log('❤️ Donation addresses ready. Thank you for your support!');
+  console.log('🚀 PostCard Pro Studio v2.1 loaded successfully!');
+  console.log('❤️ Donation addresses with clear token labels and warnings added.');
 })();
