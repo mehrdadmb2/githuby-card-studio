@@ -1,6 +1,6 @@
 // ============================================================
 //  APP – Main entry point, orchestrates all modules
-//  Version 2.2 – Fixed template theme application
+//  Version 2.3 – Fixed background upload
 // ============================================================
 (async function() {
   'use strict';
@@ -432,62 +432,61 @@
   CardManager.init(cardElements);
 
   // ============================================================
-  // 5. TEMPLATE MANAGER – RENDER AND HANDLE CLICKS
+  // 5. TEMPLATE MANAGER
   // ============================================================
-  // ====== در تابع کلیک روی تمپلیت ======
-TemplateManager.renderTemplateButtons(templateGrid, async (templateId) => {
-  const lang = LanguageManager.getCurrentLang();
-  const template = await TemplateManager.loadTemplate(templateId);
-  if (!template) return;
+  TemplateManager.renderTemplateButtons(templateGrid, async (templateId) => {
+    const lang = LanguageManager.getCurrentLang();
+    const template = await TemplateManager.loadTemplate(templateId);
+    if (!template) return;
 
-  // 1. Title
-  const titleInput = document.getElementById('cardTitle');
-  if (titleInput) titleInput.value = template.title || '';
+    // Title
+    const titleInput = document.getElementById('cardTitle');
+    if (titleInput) titleInput.value = template.title || '';
 
-  // 2. Text
-  const textArea = document.getElementById('cardText');
-  if (textArea) {
-    const text = template.text && template.text[lang] ? template.text[lang] : (template.text ? template.text.en : '');
-    textArea.value = text || '';
-  }
-
-  // 3. Emojis
-  if (template.emojis && Array.isArray(template.emojis)) {
-    const state = CardManager.getState();
-    state.emojis = template.emojis;
-    const emojiPicker = document.getElementById('emojiPicker');
-    if (emojiPicker) {
-      emojiPicker.querySelectorAll('span').forEach(el => {
-        el.classList.toggle('selected-emoji', state.emojis.includes(el.textContent));
-      });
+    // Text
+    const textArea = document.getElementById('cardText');
+    if (textArea) {
+      const text = template.text && template.text[lang] ? template.text[lang] : (template.text ? template.text.en : '');
+      textArea.value = text || '';
     }
-    CardManager.setState(state);
-  }
 
-  // 4. Theme – اعمال مستقیم (بدون await و لود فایل اضافی)
-  if (template.theme) {
-    const themeSelect = document.getElementById('themeSelect');
-    if (themeSelect) {
-      themeSelect.value = template.theme;
+    // Emojis
+    if (template.emojis && Array.isArray(template.emojis)) {
+      const state = CardManager.getState();
+      state.emojis = template.emojis;
+      const emojiPicker = document.getElementById('emojiPicker');
+      if (emojiPicker) {
+        emojiPicker.querySelectorAll('span').forEach(el => {
+          el.classList.toggle('selected-emoji', state.emojis.includes(el.textContent));
+        });
+      }
+      CardManager.setState(state);
     }
-    const cardPreview = document.getElementById('card-preview');
-    if (cardPreview) {
-      ThemeManager.applyTheme(template.theme, cardPreview);
+
+    // Theme
+    if (template.theme) {
+      const themeSelect = document.getElementById('themeSelect');
+      if (themeSelect) {
+        themeSelect.value = template.theme;
+      }
+      const cardPreview = document.getElementById('card-preview');
+      if (cardPreview) {
+        ThemeManager.applyTheme(template.theme, cardPreview);
+      }
+      const state = CardManager.getState();
+      state.theme = template.theme;
+      CardManager.setState(state);
     }
-    const state = CardManager.getState();
-    state.theme = template.theme;
-    CardManager.setState(state);
-  }
 
-  // 5. Event Type
-  const eventSelect = document.getElementById('eventType');
-  if (eventSelect && templateId) {
-    eventSelect.value = templateId;
-  }
+    // Event Type
+    const eventSelect = document.getElementById('eventType');
+    if (eventSelect && templateId) {
+      eventSelect.value = templateId;
+    }
 
-  // 6. Final update
-  CardManager.updatePreview();
-});
+    CardManager.updatePreview();
+  });
+
   // ============================================================
   // 6. EVENT LISTENERS FOR HEADER CONTROLS
   // ============================================================
@@ -495,7 +494,7 @@ TemplateManager.renderTemplateButtons(templateGrid, async (templateId) => {
     const themeId = this.value;
     const cardPreview = document.getElementById('card-preview');
     if (cardPreview) {
-      await ThemeManager.applyTheme(themeId, cardPreview);
+      ThemeManager.applyTheme(themeId, cardPreview);
     }
     const state = CardManager.getState();
     state.theme = themeId;
@@ -538,14 +537,37 @@ TemplateManager.renderTemplateButtons(templateGrid, async (templateId) => {
   });
 
   // ============================================================
-  // 8. REMOVE BACKGROUND BUTTON
+  // 8. BACKGROUND IMAGE UPLOAD (FIXED)
   // ============================================================
-  document.getElementById('removeBgBtn').addEventListener('click', function() {
-    const state = CardManager.getState();
-    state.bgImage = null;
-    document.getElementById('bgImageInput').value = '';
-    CardManager.setState(state);
-  });
+  const bgImageInput = document.getElementById('bgImageInput');
+  if (bgImageInput) {
+    bgImageInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          const state = CardManager.getState();
+          state.bgImage = ev.target.result;
+          CardManager.setState(state);
+          // Reset input so same file can be selected again
+          bgImageInput.value = '';
+          console.log('✅ Background image uploaded and applied');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  const removeBgBtn = document.getElementById('removeBgBtn');
+  if (removeBgBtn) {
+    removeBgBtn.addEventListener('click', function() {
+      const state = CardManager.getState();
+      state.bgImage = null;
+      document.getElementById('bgImageInput').value = '';
+      CardManager.setState(state);
+      console.log('✅ Background image removed');
+    });
+  }
 
   // ============================================================
   // 9. SET DEFAULT DATE/TIME
@@ -567,6 +589,6 @@ TemplateManager.renderTemplateButtons(templateGrid, async (templateId) => {
     MapManager.invalidateSize();
   }, 400);
 
-  console.log('🚀 PostCard Pro Studio v2.2 loaded successfully!');
-  console.log('❤️ Donation addresses with clear token labels and warnings added.');
+  console.log('🚀 PostCard Pro Studio v2.3 loaded successfully!');
+  console.log('❤️ Background upload fixed. Donation addresses ready.');
 })();
