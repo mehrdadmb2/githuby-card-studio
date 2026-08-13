@@ -1,0 +1,18 @@
+.theme-birthday {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #ffecd2 100%) !important;
+  color: #1a0a2e !important;
+  position: relative;
+}
+.theme-birthday::before {
+  content: "🎂🎈🎁🎉🥳🎊🎶💝";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 2.8rem;
+  opacity: 0.2;
+  white-space: nowrap;
+  transform: rotate(-3deg);
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1.4;
+}
