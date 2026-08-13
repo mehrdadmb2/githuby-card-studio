@@ -1,0 +1,12 @@
+{
+  "title": "🚗 Let's Go Out!",
+  "emojis": ["🚗", "🌄", "⛰️", "🌊", "✨", "🌿", "☀️"],
+  "theme": "outing",
+  "text": {
+    "en": "Adventure awaits! Let's go out and explore. Nature, good food, and great company – what more do we need? 🌄",
+    "fa": "ماجراجویی در انتظار است! بیا بریم بیرون و کشف کنیم. طبیعت، غذای خوب و همراهان عالی – چه چیز بیشتری نیاز داریم؟ 🌄",
+    "de": "Abenteuer wartet! Lass uns ausgehen und entdecken. Natur, gutes Essen und großartige Gesellschaft – was brauchen wir mehr? 🌄",
+    "ru": "Приключение ждёт! Пойдём гулять и исследовать. Природа, вкусная еда и отличная компания – что ещё нужно? 🌄",
+    "ja": "冒険が待ってる！出かけて探検しよう。自然、美味しい食べ物、素晴らしい仲間 – 他に何がいる？ 🌄"
+  }
+}
