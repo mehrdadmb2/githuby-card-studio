@@ -1,46 +1,49 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GitHuby Invite &amp; Card Studio</title>
+  <title>PostCard Pro Studio</title>
 
-  <!-- ======== CDN Libraries ======== -->
+  <!-- ========== CDN Libraries ========== -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&amp;family=Amiri:wght@400;700&amp;family=Lalezar&amp;family=Vazirmatn:wght@300;400;700&amp;family=ElMessiri:wght@400;700&amp;display=swap" />
+  <!-- Google Fonts: Multiple Languages -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Open+Sans:wght@300;400;700&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Pacifico&family=Quicksand:wght@300;400;700&family=Raleway:wght@300;400;700&family=Oswald:wght@300;400;700&family=Merriweather:wght@300;400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Amiri:wght@400;700&family=Cairo:wght@300;400;700&family=El+Messiri:wght@400;700&family=Lalezar&family=Vazirmatn:wght@300;400;700&family=Noto+Sans+Devanagari:wght@300;400;700&family=Noto+Sans+JP:wght@300;400;700&family=Noto+Sans+KR:wght@300;400;700&family=Noto+Sans+SC:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300&family=Bad+Script&family=Lobster&family=Abril+Fatface&family=Fredoka+One&family=Righteous&family=Bangers&family=Shadows+Into+Light&family=Indie+Flower&family=Patrick+Hand&family=Gloria+Hallelujah&family=Kalam:wght@300;400;700&family=Neucha&family=Caveat:wght@400;700&family=Comfortaa:wght@300;400;700&family=Josefin+Sans:wght@300;400;700&family=Nunito:wght@300;400;700&family=Quicksand:wght@300;400;700&family=Satisfy&family=Tangerine:wght@400;700&family=Yellowtail&family=Akaya+Kanadaka&family=Aladin&family=Alex+Brush&family=Allura&family=Amatic+SC:wght@400;700&family=Architects+Daughter&family=Berkshire+Swash&family=Bilbo+Swash+Caps&family=Bungee&family=Cedarville+Cursive&family=Clicker+Script&family=Coiny&family=Courgette&family=Damion&family=Diplomata+SC&family=Dr+Sugiyama&family=Emilys+Candy&family=Euphoria+Script&family=Federant&family=Felipa&family=Fleur+De+Leah&family=Fredericka+the+Great&family=Give+You+Glory&family=Great+Vibes&family=Gwendolyn:wght@400;700&family=Happy+Monkey&family=Henny+Penny&family=Homemade+Apple&family=Jolly+Lodger&family=Knewave&family=Laila:wght@300;400;700&family=League+Script&family=Loved+by+the+King&family=Marck+Script&family=Meddon&family=Meie+Script&family=Merienda:wght@400;700&family=Mr+Dafoe&family=Mr+De+Haviland&family=Mrs+Saint+Delafield&family=Nanum+Brush+Script&family=Oleo+Script:wght@400;700&family=Over+the+Rainbow&family=Pinyon+Script&family=Princess+Sofia&family=Rochester&family=Romanesco&family=Rouge+Script&family=Sacramento&family=Sail&family=Salsa&family=Sancreek&family=Seaweed+Script&family=Shadows+Into+Light+Two&family=Short+Stack&family=Snowburst+One&family=Spirax&family=Sue+Ellen+Francisco&family=Sumana:wght@400;700&family=Swanky+and+Moo+Moo&family=Syne+Tactile&family=Tangerine:wght@400;700&family=The+Girl+Next+Door&family=Uncial+Antiqua&family=Walter+Turncoat&family=Zeyada&display=swap" />
+
   <!-- Leaflet for map -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <!-- html2canvas for image export -->
+  <!-- html2canvas & jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <!-- jsPDF for PDF export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
-    /* ============================================================
+    /* ==============================================================
        RESET & BASE
-    ============================================================ */
+    ============================================================== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      transition: background 0.3s, color 0.3s, border-color 0.3s;
+      transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
 
     body {
-      font-family: 'Vazirmatn', 'Cairo', sans-serif;
-      min-height: 100vh;
-      background: #0b0e14;
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+      background: #0a0c10;
       color: #eee;
+      min-height: 100vh;
       padding: 20px;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       position: relative;
       overflow-x: hidden;
     }
 
-    /* ---- Dynamic Background (particles + gradient) ---- */
+    /* ---- Background Animation Canvas ---- */
     #bg-canvas {
       position: fixed;
       top: 0;
@@ -54,15 +57,15 @@
     .app-wrapper {
       position: relative;
       z-index: 1;
-      max-width: 1400px;
+      max-width: 1600px;
       width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 48px;
-      padding: 30px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 56px;
+      padding: 30px 35px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     /* ---- Header ---- */
@@ -71,12 +74,12 @@
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 28px;
+      margin-bottom: 30px;
       gap: 15px;
     }
 
     .header h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 700;
       background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
       -webkit-background-clip: text;
@@ -89,92 +92,90 @@
     .header-controls {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
     }
 
     .header-controls select,
     .header-controls button {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       color: #eee;
       padding: 8px 18px;
       border-radius: 40px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       cursor: pointer;
       backdrop-filter: blur(4px);
       font-family: inherit;
+      transition: 0.2s;
     }
 
+    .header-controls select:hover,
+    .header-controls button:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: scale(1.02);
+    }
     .header-controls select option {
       background: #1e1e2a;
       color: #eee;
     }
 
-    .header-controls button {
-      background: rgba(255, 255, 255, 0.12);
-      transition: 0.2s;
-    }
-
-    .header-controls button:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: scale(1.03);
-    }
-
     /* ---- Main Grid ---- */
     .main-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.2fr 0.8fr;
       gap: 30px;
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1200px) {
       .main-grid {
         grid-template-columns: 1fr;
         gap: 40px;
       }
     }
 
-    /* ---- Form Panel ---- */
-    .form-panel {
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 28px;
-      padding: 24px;
+    /* ---- Panels ---- */
+    .panel {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 32px;
+      padding: 24px 26px;
       backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .form-panel h2 {
+    .panel h2 {
       font-size: 1.4rem;
       margin-bottom: 20px;
       display: flex;
       align-items: center;
       gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 12px;
     }
 
     .form-group {
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .form-group label {
       display: block;
       font-weight: 400;
-      font-size: 0.9rem;
-      margin-bottom: 5px;
-      opacity: 0.8;
-      letter-spacing: 0.5px;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      opacity: 0.7;
+      letter-spacing: 0.3px;
     }
 
     .form-group input,
     .form-group textarea,
     .form-group select {
       width: 100%;
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
       color: #fff;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-family: inherit;
       outline: none;
       transition: 0.25s;
@@ -184,126 +185,118 @@
     .form-group textarea:focus,
     .form-group select:focus {
       border-color: #f5576c;
-      box-shadow: 0 0 0 3px rgba(245, 87, 108, 0.2);
+      box-shadow: 0 0 0 3px rgba(245, 87, 108, 0.15);
     }
 
     .form-group textarea {
-      min-height: 80px;
+      min-height: 70px;
       resize: vertical;
     }
 
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
     }
-
     @media (max-width: 600px) {
       .form-row {
         grid-template-columns: 1fr;
       }
     }
 
-    /* ---- Map container ---- */
-    #map {
-      height: 200px;
-      border-radius: 16px;
-      margin-top: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .coord-inputs {
-      display: flex;
-      gap: 12px;
-      margin-top: 8px;
-    }
-
-    .coord-inputs input {
-      flex: 1;
-    }
-
-    /* ---- Mood & Weather badges ---- */
+    /* ---- Badge Groups (Mood, Weather, Border) ---- */
     .badge-group {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      margin-top: 4px;
+    }
+
+    .badge-option {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 30px;
+      padding: 5px 14px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #ccc;
+    }
+
+    .badge-option.active {
+      background: rgba(245, 87, 108, 0.25);
+      border-color: #f5576c;
+      color: #fff;
+      box-shadow: 0 0 16px rgba(245, 87, 108, 0.15);
+    }
+
+    .badge-option:hover {
+      transform: scale(1.04);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* ---- Emoji Picker ---- */
+    .emoji-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 6px 0;
+    }
+
+    .emoji-grid span {
+      font-size: 1.7rem;
+      cursor: pointer;
+      transition: 0.15s;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 2px 8px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+    }
+
+    .emoji-grid span:hover {
+      transform: scale(1.3);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .emoji-grid span.selected-emoji {
+      background: rgba(245, 87, 108, 0.2);
+      border-color: #f5576c;
+    }
+
+    /* ---- Map ---- */
+    #map {
+      height: 170px;
+      border-radius: 16px;
+      margin-top: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .coord-inputs {
+      display: flex;
+      gap: 10px;
       margin-top: 6px;
     }
-
-    .badge-group .badge-option {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 30px;
-      padding: 6px 14px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    .coord-inputs input {
+      flex: 1;
     }
 
-    .badge-group .badge-option.active {
-      background: rgba(245, 87, 108, 0.3);
-      border-color: #f5576c;
-      box-shadow: 0 0 12px rgba(245, 87, 108, 0.2);
-    }
-
-    .badge-group .badge-option:hover {
-      transform: scale(1.04);
-    }
-
-    /* ---- Preview Panel ---- */
-    .preview-panel {
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 28px;
-      padding: 24px;
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .preview-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-
-    .preview-header h2 {
-      font-size: 1.4rem;
-    }
-
-    .preview-actions button {
-      background: rgba(255, 255, 255, 0.08);
-      border: none;
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 30px;
-      margin-left: 6px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: 0.2s;
-      backdrop-filter: blur(4px);
-    }
-
-    .preview-actions button:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    /* ---- The actual Card (Preview) ---- */
+    /* ---- Preview Card ---- */
     #card-preview {
-      background: linear-gradient(145deg, #1e1e2f, #2a2a3e);
+      background: linear-gradient(145deg, #1a1a2e, #26263a);
       border-radius: 32px;
-      padding: 28px;
-      min-height: 380px;
+      padding: 30px;
+      min-height: 420px;
       border: 1px solid rgba(255, 255, 255, 0.06);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 12px 50px rgba(0, 0, 0, 0.6);
       transition: all 0.4s;
       position: relative;
       overflow: hidden;
-      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     #card-preview .card-bg-pattern {
@@ -322,21 +315,24 @@
       display: flex;
       flex-direction: column;
       height: 100%;
+      flex: 1;
     }
 
     .card-title {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
+      line-height: 1.2;
     }
 
     .card-sub {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       opacity: 0.7;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      align-items: center;
     }
 
     .card-body {
@@ -347,135 +343,156 @@
     }
 
     .card-footer {
-      margin-top: 16px;
+      margin-top: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.9rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding-top: 14px;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .card-footer .location {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
-
     .card-footer .datetime {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .card-badge {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 4px 14px;
+      background: rgba(255, 255, 255, 0.07);
+      padding: 3px 12px;
       border-radius: 30px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    #previewEmojis {
+      font-size: 1.8rem;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    /* ---- Preview Controls ---- */
+    .preview-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .preview-actions button {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: 0.2s;
+      font-family: inherit;
       display: inline-flex;
       align-items: center;
       gap: 6px;
     }
 
-    /* ---- Emoji picker (simple) ---- */
-    .emoji-picker {
+    .preview-actions button:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: scale(1.03);
+    }
+
+    /* ---- Background Image Upload ---- */
+    .bg-upload {
       display: flex;
+      gap: 10px;
+      align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
-      margin: 6px 0;
     }
 
-    .emoji-picker span {
-      font-size: 1.6rem;
+    .bg-upload input[type="file"] {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      padding: 8px 12px;
+      border-radius: 14px;
+      color: #ccc;
+      width: auto;
+      flex: 1;
       cursor: pointer;
-      transition: 0.15s;
+    }
+
+    .bg-upload input[type="file"]::file-selector-button {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    /* ---- Slider style ---- */
+    input[type="range"] {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      -webkit-appearance: none;
+      appearance: none;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: #f5576c;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* ---- Templates (Pre-made texts) ---- */
+    .template-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      max-height: 160px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .template-grid button {
       background: rgba(255, 255, 255, 0.04);
-      padding: 4px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #ccc;
+      padding: 6px 10px;
       border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      text-align: left;
+      transition: 0.2s;
+      font-family: inherit;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .template-grid button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: rgba(245, 87, 108, 0.3);
     }
 
-    .emoji-picker span:hover {
-      transform: scale(1.25);
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    /* ---- Responsive tweaks ---- */
-    @media (max-width: 700px) {
-      .app-wrapper {
-        padding: 16px;
-      }
-      .header h1 {
-        font-size: 1.5rem;
-      }
-      .form-panel,
-      .preview-panel {
-        padding: 16px;
-      }
-    }
-
-    /* ====== GLASSMORPHISM THEME ====== */
-    .theme-glass #card-preview {
-      background: rgba(255, 255, 255, 0.08) !important;
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    /* ====== DARK THEME (default) ====== */
-    body.dark-theme {
-      background: #0b0e14;
-    }
-
-    /* ====== LIGHT THEME ====== */
-    body.light-theme {
-      background: #f0f2f5;
-      color: #111;
-    }
-    body.light-theme .app-wrapper {
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(12px);
-      border-color: rgba(0, 0, 0, 0.05);
-    }
-    body.light-theme .form-panel,
-    body.light-theme .preview-panel {
-      background: rgba(255, 255, 255, 0.5);
-      border-color: rgba(0, 0, 0, 0.05);
-    }
-    body.light-theme .form-group input,
-    body.light-theme .form-group textarea,
-    body.light-theme .form-group select {
-      background: rgba(255, 255, 255, 0.6);
-      color: #111;
-      border-color: rgba(0, 0, 0, 0.1);
-    }
-    body.light-theme .header-controls select,
-    body.light-theme .header-controls button {
-      background: rgba(0, 0, 0, 0.05);
-      color: #111;
-      border-color: rgba(0, 0, 0, 0.08);
-    }
-    body.light-theme #card-preview {
-      background: #fff !important;
-      color: #111;
-      border-color: rgba(0, 0, 0, 0.05);
-    }
-    body.light-theme .card-footer {
-      border-top-color: rgba(0, 0, 0, 0.08);
-    }
-    body.light-theme .badge-group .badge-option {
-      background: rgba(0, 0, 0, 0.03);
-      border-color: rgba(0, 0, 0, 0.06);
-    }
-    body.light-theme .badge-group .badge-option.active {
-      background: rgba(245, 87, 108, 0.15);
-      border-color: #f5576c;
-    }
-
-    /* ====== Scroll ====== */
+    /* ---- Scrollbar ---- */
     ::-webkit-scrollbar {
-      width: 6px;
+      width: 5px;
     }
     ::-webkit-scrollbar-thumb {
       background: #f5576c;
@@ -484,156 +501,534 @@
     ::-webkit-scrollbar-track {
       background: rgba(255, 255, 255, 0.02);
     }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 700px) {
+      .app-wrapper {
+        padding: 16px;
+      }
+      .header h1 {
+        font-size: 1.6rem;
+      }
+      .panel {
+        padding: 16px;
+      }
+      .template-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ====== THEMES (will be applied dynamically) ====== */
+    /* We define many gradient themes as classes */
+    .theme-aurora {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fdfcfb 100%) !important;
+      color: #1a1a2e !important;
+    }
+    .theme-sunset {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+      color: #fff !important;
+    }
+    .theme-ocean {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+      color: #fff !important;
+    }
+    .theme-forest {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
+      color: #0a2a1a !important;
+    }
+    .theme-lavender {
+      background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%) !important;
+      color: #2d1b3a !important;
+    }
+    .theme-rose {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%) !important;
+      color: #4a2c1a !important;
+    }
+    .theme-night {
+      background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%) !important;
+      color: #eee !important;
+    }
+    .theme-fire {
+      background: linear-gradient(135deg, #f12711 0%, #f5af19 100%) !important;
+      color: #fff !important;
+    }
+    .theme-ice {
+      background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%) !important;
+      color: #0a1a3a !important;
+    }
+    .theme-candy {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%) !important;
+      color: #fff !important;
+    }
+    .theme-midnight {
+      background: linear-gradient(135deg, #232526 0%, #414345 100%) !important;
+      color: #eee !important;
+    }
+    .theme-blossom {
+      background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%) !important;
+      color: #1a1a3a !important;
+    }
+    .theme-gold {
+      background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%) !important;
+      color: #2a1a00 !important;
+    }
+    .theme-silver {
+      background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%) !important;
+      color: #fff !important;
+    }
+    .theme-neon {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 25%, #4facfe 50%, #43e97b 75%, #f9d423 100%) !important;
+      color: #0a0a1a !important;
+    }
+    .theme-pastel {
+      background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%) !important;
+      color: #2a1a2a !important;
+    }
+    .theme-royal {
+      background: linear-gradient(135deg, #141e30 0%, #243b55 100%) !important;
+      color: #e0e0ff !important;
+    }
+    .theme-sakura {
+      background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%) !important;
+      color: #3a1a0a !important;
+    }
+    .theme-galaxy {
+      background: radial-gradient(circle at 30% 30%, #1a0a2e, #2d1b4e, #1a0a2e) !important;
+      color: #f0e6ff !important;
+    }
+    .theme-lime {
+      background: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%) !important;
+      color: #0a1a0a !important;
+    }
+    .theme-coral {
+      background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%) !important;
+      color: #1a0a0a !important;
+    }
+    .theme-velvet {
+      background: linear-gradient(135deg, #2d1b4e 0%, #1a0a2e 100%) !important;
+      color: #e6d5f0 !important;
+    }
+    .theme-mint {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%) !important;
+      color: #0a2a2a !important;
+    }
+    .theme-peach {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%) !important;
+      color: #3a1a0a !important;
+    }
+    .theme-indigo {
+      background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%) !important;
+      color: #e6eeff !important;
+    }
+    .theme-tropical {
+      background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%) !important;
+      color: #0a1a0a !important;
+    }
+    .theme-vintage {
+      background: linear-gradient(135deg, #d4a373 0%, #cc8e5a 50%, #b5835a 100%) !important;
+      color: #1a0e05 !important;
+    }
+    .theme-cyber {
+      background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%) !important;
+      color: #0ff !important;
+    }
+    /* Glass theme */
+    .theme-glass {
+      background: rgba(255, 255, 255, 0.08) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      color: #fff !important;
+    }
+    /* Light theme base */
+    .theme-light {
+      background: #ffffff !important;
+      color: #111 !important;
+    }
+    /* Dark theme base */
+    .theme-dark {
+      background: #1a1a2e !important;
+      color: #eee !important;
+    }
+
+    /* ---- Border styles ---- */
+    .border-solid {
+      border-style: solid !important;
+    }
+    .border-dashed {
+      border-style: dashed !important;
+    }
+    .border-dotted {
+      border-style: dotted !important;
+    }
+    .border-double {
+      border-style: double !important;
+    }
+    .border-groove {
+      border-style: groove !important;
+    }
+    .border-ridge {
+      border-style: ridge !important;
+    }
+    .border-inset {
+      border-style: inset !important;
+    }
+    .border-outset {
+      border-style: outset !important;
+    }
+    .border-none {
+      border-style: none !important;
+    }
+
+    /* ---- Preview container for export ---- */
+    #export-container {
+      position: relative;
+    }
+
+    /* ---- Responsive font size in card ---- */
+    .card-content {
+      word-break: break-word;
+    }
+
+    /* small tweaks */
+    .mt-1 {
+      margin-top: 8px;
+    }
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .op-5 {
+      opacity: 0.5;
+      font-size: 0.8rem;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .w-full {
+      width: 100%;
+    }
   </style>
 </head>
 <body>
 
-  <!-- ====== BACKGROUND ANIMATION CANVAS ====== -->
+  <!-- ====== BACKGROUND CANVAS ====== -->
   <canvas id="bg-canvas"></canvas>
 
-  <div class="app-wrapper">
+  <div class="app-wrapper" id="appWrapper">
     <!-- ====== HEADER ====== -->
     <header class="header">
-      <h1><i class="fas fa-envelope-open-text"></i> GitHuby Card Studio</h1>
+      <h1><i class="fas fa-envelope-open-text"></i> PostCard Pro Studio</h1>
       <div class="header-controls">
         <select id="themeSelect">
-          <option value="dark">🌙 دارک</option>
-          <option value="light">☀️ لایت</option>
-          <option value="glass">🧊 گلس مورفیسم</option>
+          <optgroup label="🌓 Base">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="glass">Glassmorphism</option>
+          </optgroup>
+          <optgroup label="🌈 Gradients">
+            <option value="aurora">Aurora</option>
+            <option value="sunset">Sunset</option>
+            <option value="ocean">Ocean</option>
+            <option value="forest">Forest</option>
+            <option value="lavender">Lavender</option>
+            <option value="rose">Rose</option>
+            <option value="night">Night</option>
+            <option value="fire">Fire</option>
+            <option value="ice">Ice</option>
+            <option value="candy">Candy</option>
+            <option value="midnight">Midnight</option>
+            <option value="blossom">Blossom</option>
+            <option value="gold">Gold</option>
+            <option value="silver">Silver</option>
+            <option value="neon">Neon</option>
+            <option value="pastel">Pastel</option>
+            <option value="royal">Royal</option>
+            <option value="sakura">Sakura</option>
+            <option value="galaxy">Galaxy</option>
+            <option value="lime">Lime</option>
+            <option value="coral">Coral</option>
+            <option value="velvet">Velvet</option>
+            <option value="mint">Mint</option>
+            <option value="peach">Peach</option>
+            <option value="indigo">Indigo</option>
+            <option value="tropical">Tropical</option>
+            <option value="vintage">Vintage</option>
+            <option value="cyber">Cyber</option>
+          </optgroup>
         </select>
         <select id="fontSelect">
-          <option value="Vazirmatn">وزیرمتن</option>
-          <option value="Cairo">قاهره</option>
-          <option value="Amiri">امیری</option>
-          <option value="Lalezar">لاله‌زار</option>
-          <option value="ElMessiri">المسیری</option>
+          <optgroup label="English">
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Lato">Lato</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Dancing Script">Dancing Script</option>
+            <option value="Great Vibes">Great Vibes</option>
+            <option value="Pacifico">Pacifico</option>
+            <option value="Quicksand">Quicksand</option>
+            <option value="Raleway">Raleway</option>
+            <option value="Oswald">Oswald</option>
+            <option value="Merriweather">Merriweather</option>
+            <option value="Cormorant Garamond">Cormorant Garamond</option>
+            <option value="Bad Script">Bad Script</option>
+            <option value="Lobster">Lobster</option>
+            <option value="Abril Fatface">Abril Fatface</option>
+            <option value="Fredoka One">Fredoka One</option>
+            <option value="Righteous">Righteous</option>
+            <option value="Bangers">Bangers</option>
+            <option value="Shadows Into Light">Shadows Into Light</option>
+            <option value="Indie Flower">Indie Flower</option>
+            <option value="Patrick Hand">Patrick Hand</option>
+            <option value="Gloria Hallelujah">Gloria Hallelujah</option>
+            <option value="Kalam">Kalam</option>
+            <option value="Neucha">Neucha</option>
+            <option value="Caveat">Caveat</option>
+            <option value="Comfortaa">Comfortaa</option>
+            <option value="Josefin Sans">Josefin Sans</option>
+            <option value="Nunito">Nunito</option>
+            <option value="Satisfy">Satisfy</option>
+            <option value="Tangerine">Tangerine</option>
+            <option value="Yellowtail">Yellowtail</option>
+          </optgroup>
+          <optgroup label="فارسی">
+            <option value="Vazirmatn">وزیرمتن</option>
+            <option value="Amiri">امیری</option>
+            <option value="Cairo">قاهره</option>
+            <option value="El Messiri">المسیری</option>
+            <option value="Lalezar">لاله‌زار</option>
+          </optgroup>
+          <optgroup label="Deutsch">
+            <option value="Noto Sans">Noto Sans (German)</option>
+          </optgroup>
+          <optgroup label="Русский">
+            <option value="Noto Sans">Noto Sans (Cyrillic)</option>
+          </optgroup>
+          <optgroup label="日本語">
+            <option value="Noto Sans JP">Noto Sans JP</option>
+          </optgroup>
+          <optgroup label="中文">
+            <option value="Noto Sans SC">Noto Sans SC</option>
+          </optgroup>
         </select>
-        <button id="resetBtn"><i class="fas fa-undo-alt"></i> ریست</button>
+        <button id="resetBtn"><i class="fas fa-undo-alt"></i> Reset</button>
       </div>
     </header>
 
     <!-- ====== MAIN GRID ====== -->
     <div class="main-grid">
-      <!-- ====== FORM PANEL ====== -->
-      <section class="form-panel">
-        <h2><i class="fas fa-pen-fancy"></i> اطلاعات کارت</h2>
+      <!-- ====== LEFT PANEL (Controls) ====== -->
+      <section class="panel">
+        <h2><i class="fas fa-sliders-h"></i> Customize</h2>
 
         <!-- Event Type -->
         <div class="form-group">
-          <label>نوع رویداد</label>
+          <label>Event Type</label>
           <select id="eventType">
-            <option value="invite">🎉 دعوت</option>
-            <option value="reconcile">🤝 آشتی</option>
-            <option value="birthday">🎂 تولد</option>
-            <option value="outing">🚗 برنامه سفر</option>
-            <option value="note">📝 یادداشت</option>
-            <option value="poem">📜 شعر</option>
-            <option value="art">🎨 اثر هنری</option>
+            <option value="invite">🎉 Invite</option>
+            <option value="reconcile">🤝 Reconcile</option>
+            <option value="birthday">🎂 Birthday</option>
+            <option value="outing">🚗 Outing</option>
+            <option value="love">❤️ Love</option>
+            <option value="miss">😢 Miss You</option>
+            <option value="note">📝 Note</option>
+            <option value="poem">📜 Poem</option>
+            <option value="art">🎨 Art</option>
           </select>
         </div>
 
         <!-- Title -->
         <div class="form-group">
-          <label>عنوان</label>
-          <input type="text" id="cardTitle" placeholder="مثلاً: دعوت به شام" />
+          <label>Title</label>
+          <input type="text" id="cardTitle" placeholder="e.g. Let's Celebrate!" />
         </div>
 
-        <!-- Description / Text -->
+        <!-- Text -->
         <div class="form-group">
-          <label>متن اصلی</label>
-          <textarea id="cardText" placeholder="متن دعوت، شعر یا یادداشت شما ..."></textarea>
+          <label>Message / Text</label>
+          <textarea id="cardText" placeholder="Write your message, poem, or note..."></textarea>
         </div>
 
         <!-- Date & Time -->
         <div class="form-row">
           <div class="form-group">
-            <label>تاریخ</label>
+            <label>Date</label>
             <input type="date" id="cardDate" />
           </div>
           <div class="form-group">
-            <label>ساعت</label>
+            <label>Time</label>
             <input type="time" id="cardTime" />
           </div>
         </div>
 
-        <!-- Location -->
+        <!-- Location & Map -->
         <div class="form-group">
-          <label>📍 لوکیشن</label>
-          <input type="text" id="cardLocation" placeholder="آدرس یا نام مکان" />
+          <label>📍 Location</label>
+          <input type="text" id="cardLocation" placeholder="Address or place name" />
           <div id="map"></div>
           <div class="coord-inputs">
-            <input type="text" id="latInput" placeholder="عرض (Lat)" />
-            <input type="text" id="lngInput" placeholder="طول (Lng)" />
+            <input type="text" id="latInput" placeholder="Latitude" />
+            <input type="text" id="lngInput" placeholder="Longitude" />
           </div>
         </div>
 
-        <!-- Mood -->
+        <!-- ====== Mood ====== -->
         <div class="form-group">
-          <label>وضعیت روحی</label>
+          <label>Mood</label>
           <div class="badge-group" id="moodGroup">
-            <span class="badge-option active" data-mood="happy">😊 خوب</span>
-            <span class="badge-option" data-mood="kind">🥰 مهربون</span>
-            <span class="badge-option" data-mood="angry">😤 عصبی</span>
-            <span class="badge-option" data-mood="bored">😑 بی‌حوصله</span>
+            <span class="badge-option active" data-mood="happy">😊 Happy</span>
+            <span class="badge-option" data-mood="kind">🥰 Kind</span>
+            <span class="badge-option" data-mood="angry">😤 Angry</span>
+            <span class="badge-option" data-mood="bored">😑 Bored</span>
+            <span class="badge-option" data-mood="love">😍 Love</span>
+            <span class="badge-option" data-mood="sad">😢 Sad</span>
+            <span class="badge-option" data-mood="excited">🤩 Excited</span>
+            <span class="badge-option" data-mood="calm">😌 Calm</span>
           </div>
         </div>
 
-        <!-- Weather -->
+        <!-- ====== Weather ====== -->
         <div class="form-group">
-          <label>آب و هوا</label>
+          <label>Weather</label>
           <div class="badge-group" id="weatherGroup">
-            <span class="badge-option active" data-weather="sunny">☀️ آفتابی</span>
-            <span class="badge-option" data-weather="cloudy">☁️ ابری</span>
-            <span class="badge-option" data-weather="rainy">🌧️ بارانی</span>
-            <span class="badge-option" data-weather="snowy">❄️ برفی</span>
+            <span class="badge-option active" data-weather="sunny">☀️ Sunny</span>
+            <span class="badge-option" data-weather="cloudy">☁️ Cloudy</span>
+            <span class="badge-option" data-weather="rainy">🌧️ Rainy</span>
+            <span class="badge-option" data-weather="snowy">❄️ Snowy</span>
+            <span class="badge-option" data-weather="stormy">⛈️ Stormy</span>
+            <span class="badge-option" data-weather="windy">💨 Windy</span>
+            <span class="badge-option" data-weather="foggy">🌫️ Foggy</span>
           </div>
         </div>
 
-        <!-- Emoji Picker (quick) -->
+        <!-- ====== Border Style ====== -->
         <div class="form-group">
-          <label>ایموجی تزیینی (کلیک کنید)</label>
-          <div class="emoji-picker" id="emojiPicker">
+          <label>Border Style</label>
+          <div class="badge-group" id="borderGroup">
+            <span class="badge-option active" data-border="solid">Solid</span>
+            <span class="badge-option" data-border="dashed">Dashed</span>
+            <span class="badge-option" data-border="dotted">Dotted</span>
+            <span class="badge-option" data-border="double">Double</span>
+            <span class="badge-option" data-border="groove">Groove</span>
+            <span class="badge-option" data-border="ridge">Ridge</span>
+            <span class="badge-option" data-border="inset">Inset</span>
+            <span class="badge-option" data-border="outset">Outset</span>
+            <span class="badge-option" data-border="none">None</span>
+          </div>
+        </div>
+
+        <!-- ====== Border Color & Width ====== -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>Border Color</label>
+            <input type="color" id="borderColor" value="#f5576c" />
+          </div>
+          <div class="form-group">
+            <label>Border Width (px)</label>
+            <input type="number" id="borderWidth" value="3" min="0" max="20" />
+          </div>
+        </div>
+
+        <!-- ====== Background Image Upload ====== -->
+        <div class="form-group">
+          <label>🖼️ Background Image</label>
+          <div class="bg-upload">
+            <input type="file" id="bgImageInput" accept="image/*" />
+            <button id="removeBgBtn" style="background:rgba(255,0,0,0.15);border:1px solid rgba(255,0,0,0.2);padding:6px 14px;border-radius:30px;color:#ff6b6b;cursor:pointer;">Remove</button>
+          </div>
+        </div>
+
+        <!-- ====== Advanced Styling ====== -->
+        <div class="form-group">
+          <label>Font Size (px)</label>
+          <input type="range" id="fontSizeRange" min="12" max="36" value="18" />
+          <span id="fontSizeLabel">18px</span>
+        </div>
+        <div class="form-group">
+          <label>Line Height</label>
+          <input type="range" id="lineHeightRange" min="1.2" max="2.8" step="0.1" value="1.7" />
+          <span id="lineHeightLabel">1.7</span>
+        </div>
+        <div class="form-group">
+          <label>Text Color</label>
+          <input type="color" id="textColor" value="#ffffff" />
+        </div>
+        <div class="form-group">
+          <label>Shadow (px)</label>
+          <input type="range" id="shadowRange" min="0" max="30" value="8" />
+          <span id="shadowLabel">8px</span>
+        </div>
+        <div class="form-group">
+          <label>Opacity</label>
+          <input type="range" id="opacityRange" min="0.3" max="1.0" step="0.05" value="0.95" />
+          <span id="opacityLabel">0.95</span>
+        </div>
+
+        <!-- ====== Emoji Picker ====== -->
+        <div class="form-group">
+          <label>Emojis (click to add/remove)</label>
+          <div class="emoji-grid" id="emojiPicker">
             <span>❤️</span><span>🎈</span><span>🌟</span><span>💎</span><span>🌸</span>
             <span>🔥</span><span>🌈</span><span>⭐</span><span>🎁</span><span>🍀</span>
             <span>✨</span><span>💫</span><span>🎵</span><span>📌</span><span>💌</span>
+            <span>🌺</span><span>🌻</span><span>🌹</span><span>🍃</span><span>🍂</span>
+            <span>❄️</span><span>☀️</span><span>🌙</span><span>⭐</span><span>🌊</span>
+            <span>🎉</span><span>🎊</span><span>🥳</span><span>💝</span><span>💖</span>
           </div>
-          <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;" id="selectedEmojis"></div>
+          <div id="selectedEmojis" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;font-size:1.8rem;"></div>
         </div>
 
       </section>
 
-      <!-- ====== PREVIEW PANEL ====== -->
-      <section class="preview-panel">
-        <div class="preview-header">
-          <h2><i class="fas fa-eye"></i> پیش‌نمایش</h2>
-          <div class="preview-actions">
-            <button id="downloadImageBtn"><i class="fas fa-image"></i> PNG</button>
-            <button id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> PDF</button>
-            <button id="printBtn"><i class="fas fa-print"></i> چاپ</button>
+      <!-- ====== RIGHT PANEL (Preview + Templates) ====== -->
+      <section class="panel" style="display:flex;flex-direction:column;">
+        <h2><i class="fas fa-eye"></i> Preview</h2>
+
+        <!-- ====== PREVIEW CARD ====== -->
+        <div id="export-container">
+          <div id="card-preview">
+            <div class="card-bg-pattern"></div>
+            <div class="card-content">
+              <div class="card-title" id="previewTitle">Your Title</div>
+              <div class="card-sub">
+                <span id="previewEvent">🎉 Invite</span>
+                <span class="card-badge" id="previewMood">😊 Happy</span>
+                <span class="card-badge" id="previewWeather">☀️</span>
+              </div>
+              <div class="card-body" id="previewText">Write your message here...</div>
+              <div class="card-footer">
+                <span class="location"><i class="fas fa-map-pin"></i> <span id="previewLocation">Tehran</span></span>
+                <span class="datetime"><i class="far fa-calendar-alt"></i> <span id="previewDatetime">2026-08-13 20:00</span></span>
+              </div>
+              <div id="previewEmojis"></div>
+            </div>
           </div>
         </div>
 
-        <!-- ====== CARD PREVIEW ====== -->
-        <div id="card-preview">
-          <div class="card-bg-pattern"></div>
-          <div class="card-content">
-            <div class="card-title" id="previewTitle">عنوان کارت</div>
-            <div class="card-sub" id="previewSub">
-              <span id="previewEvent">🎉 دعوت</span>
-              <span class="card-badge" id="previewMood">😊 خوب</span>
-              <span class="card-badge" id="previewWeather">☀️</span>
-            </div>
-            <div class="card-body" id="previewText">متن شما اینجا نمایش داده می‌شود ...</div>
-            <div class="card-footer">
-              <span class="location"><i class="fas fa-map-pin"></i> <span id="previewLocation">تهران</span></span>
-              <span class="datetime"><i class="far fa-calendar-alt"></i> <span id="previewDatetime">۱۴۰۴/۰۱/۰۱ ۲۰:۰۰</span></span>
-            </div>
-            <div id="previewEmojis" style="margin-top:8px;font-size:1.8rem;display:flex;gap:6px;"></div>
+        <!-- ====== Action Buttons ====== -->
+        <div class="preview-actions">
+          <button id="downloadImageBtn"><i class="fas fa-image"></i> PNG</button>
+          <button id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> PDF</button>
+          <button id="printBtn"><i class="fas fa-print"></i> Print</button>
+        </div>
+
+        <!-- ====== TEMPLATES (Pre-made texts) ====== -->
+        <div style="margin-top:18px;">
+          <h3 style="font-size:1rem;margin-bottom:8px;display:flex;gap:8px;align-items:center;">
+            <i class="fas fa-copy"></i> Quick Templates
+            <span style="font-size:0.7rem;opacity:0.5;font-weight:normal;">(click to insert)</span>
+          </h3>
+          <div class="template-grid" id="templateGrid">
+            <!-- Will be populated by JS -->
           </div>
         </div>
 
-        <p style="margin-top:12px;font-size:0.8rem;opacity:0.5;text-align:center;">
-          <i class="fas fa-sync-alt"></i> تغییرات به‌طور خودکار ذخیره می‌شوند.
+        <p style="margin-top:12px;font-size:0.75rem;opacity:0.4;text-align:center;">
+          <i class="fas fa-sync-alt"></i> Auto-saved in your browser
         </p>
       </section>
     </div>
@@ -643,9 +1038,9 @@
     (function() {
       "use strict";
 
-      // ============================================================
+      // ================================================================
       //  ELEMENTS
-      // ============================================================
+      // ================================================================
       const cardTitle = document.getElementById('cardTitle');
       const cardText = document.getElementById('cardText');
       const cardDate = document.getElementById('cardDate');
@@ -670,19 +1065,38 @@
 
       const moodOptions = document.querySelectorAll('#moodGroup .badge-option');
       const weatherOptions = document.querySelectorAll('#weatherGroup .badge-option');
+      const borderOptions = document.querySelectorAll('#borderGroup .badge-option');
       const emojiPicker = document.getElementById('emojiPicker');
-      const selectedEmojis = document.getElementById('selectedEmojis');
+      const selectedEmojisContainer = document.getElementById('selectedEmojis');
 
-      // ============================================================
+      const fontSizeRange = document.getElementById('fontSizeRange');
+      const fontSizeLabel = document.getElementById('fontSizeLabel');
+      const lineHeightRange = document.getElementById('lineHeightRange');
+      const lineHeightLabel = document.getElementById('lineHeightLabel');
+      const textColorInput = document.getElementById('textColor');
+      const shadowRange = document.getElementById('shadowRange');
+      const shadowLabel = document.getElementById('shadowLabel');
+      const opacityRange = document.getElementById('opacityRange');
+      const opacityLabel = document.getElementById('opacityLabel');
+      const borderColorInput = document.getElementById('borderColor');
+      const borderWidthInput = document.getElementById('borderWidth');
+      const bgImageInput = document.getElementById('bgImageInput');
+      const removeBgBtn = document.getElementById('removeBgBtn');
+
+      const templateGrid = document.getElementById('templateGrid');
+
+      // ================================================================
       //  STATE
-      // ============================================================
+      // ================================================================
       let currentMood = 'happy';
       let currentWeather = 'sunny';
+      let currentBorder = 'solid';
       let selectedEmojiList = [];
+      let bgImageDataURL = null;
 
-      // ============================================================
+      // ================================================================
       //  MAP (Leaflet)
-      // ============================================================
+      // ================================================================
       let mapInstance = null;
       let marker = null;
 
@@ -693,7 +1107,7 @@
         }
         mapInstance = L.map('map').setView([35.6892, 51.3890], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© OpenStreetMap contributors'
+          attribution: '© OpenStreetMap'
         }).addTo(mapInstance);
         marker = L.marker([35.6892, 51.3890], { draggable: true }).addTo(mapInstance);
 
@@ -712,120 +1126,273 @@
           lngInput.value = lng.toFixed(6);
           updatePreview();
         });
-
-        // reverse geocode on marker drag end? we can do a simple fetch
-        // but we'll keep it manual for simplicity.
       }
 
-      // update map from lat/lng inputs
       function updateMapFromCoords() {
         const lat = parseFloat(latInput.value);
         const lng = parseFloat(lngInput.value);
-        if (!isNaN(lat) && !isNaN(lng)) {
-          if (mapInstance) {
-            mapInstance.setView([lat, lng], 13);
-            marker.setLatLng([lat, lng]);
-          }
+        if (!isNaN(lat) && !isNaN(lng) && mapInstance) {
+          mapInstance.setView([lat, lng], 13);
+          marker.setLatLng([lat, lng]);
         }
       }
 
-      // ============================================================
+      // ================================================================
+      //  TEMPLATES DATABASE (multi-language, multi-topic)
+      // ================================================================
+      const templates = {
+        birthday: {
+          en: "Happy Birthday! 🎂 May your day be filled with joy and laughter.",
+          fa: "تولدت مبارک! 🎂 روزت پر از شادی و خنده.",
+          de: "Alles Gute zum Geburtstag! 🎂 Möge dein Tag voller Freude sein.",
+          ru: "С днём рождения! 🎂 Пусть твой день будет полон радости.",
+          ja: "お誕生日おめでとう！ 🎂 素晴らしい1日になりますように。"
+        },
+        reconcile: {
+          en: "Let's make peace. 🤝 I'm sorry. Let's start over.",
+          fa: "بیا آشتی کنیم. 🤝 متاسفم. بیا از نو شروع کنیم.",
+          de: "Lass uns Frieden schließen. 🤝 Es tut mir leid. Lass uns neu anfangen.",
+          ru: "Давай помиримся. 🤝 Прости. Давай начнём сначала.",
+          ja: "仲直りしよう。 🤝 ごめんね。やり直そう。"
+        },
+        love: {
+          en: "I love you more than words can say. ❤️ You are my everything.",
+          fa: "دوستت دارم بیشتر از آنچه کلمات بتوانند بگویند. ❤️ تو همه چیز منی.",
+          de: "Ich liebe dich mehr als Worte sagen können. ❤️ Du bist mein Alles.",
+          ru: "Я люблю тебя больше, чем могут сказать слова. ❤️ Ты моё всё.",
+          ja: "言葉では言い表せないほど愛してる。 ❤️ あなたは私のすべてです。"
+        },
+        outing: {
+          en: "Let's go out! 🚗 Adventure awaits. Join me?",
+          fa: "بیا بریم بیرون! 🚗 ماجراجویی در انتظار است. همراهی می‌کنی؟",
+          de: "Lass uns ausgehen! 🚗 Abenteuer wartet. Kommst du mit?",
+          ru: "Пойдём гулять! 🚗 Приключение ждёт. Присоединишься?",
+          ja: "出かけよう！ 🚗 冒険が待ってる。一緒に行く？"
+        },
+        miss: {
+          en: "I miss you so much. 😢 Can't wait to see you again.",
+          fa: "دلم برایت تنگ شده. 😢 بی‌صبرانه منتظر دیدار تو هستم.",
+          de: "Ich vermisse dich so sehr. 😢 Ich kann es kaum erwarten, dich wiederzusehen.",
+          ru: "Я так скучаю по тебе. 😢 Не могу дождаться встречи.",
+          ja: "すごく会いたい。 😢 早く会いたいよ。"
+        },
+        invite: {
+          en: "You're invited! 🎉 Join us for a wonderful time.",
+          fa: "شما دعوتید! 🎉 به ما بپیوندید برای زمانی فوق‌العاده.",
+          de: "Du bist eingeladen! 🎉 Komm und verbringe eine wundervolle Zeit mit uns.",
+          ru: "Вы приглашены! 🎉 Присоединяйтесь к нам для прекрасного времени.",
+          ja: "ご招待！ 🎉 素晴らしい時間を一緒に過ごしましょう。"
+        }
+      };
+
+      const templateTopics = ['birthday', 'reconcile', 'love', 'outing', 'miss', 'invite'];
+
+      // ================================================================
+      //  RENDER TEMPLATES
+      // ================================================================
+      function renderTemplates() {
+        templateGrid.innerHTML = '';
+        // We'll show templates in English by default (since UI is English)
+        // But we also add a language selector later? For now, we show English + Persian + others as options.
+        // Actually we show a few languages per template.
+        templateTopics.forEach(topic => {
+          const btn = document.createElement('button');
+          const texts = templates[topic];
+          // Show in English (primary) + Persian (secondary) as preview
+          btn.textContent = `${topic.charAt(0).toUpperCase()+topic.slice(1)}: ${texts.en.slice(0,25)}...`;
+          btn.title = `English: ${texts.en}\nPersian: ${texts.fa}\nGerman: ${texts.de}\nRussian: ${texts.ru}\nJapanese: ${texts.ja}`;
+          btn.dataset.topic = topic;
+          btn.addEventListener('click', function() {
+            // Insert the English version (since UI is English) but we can also let user choose later
+            // For now, we set the text to English (main language)
+            cardText.value = templates[topic].en;
+            // Also set event type
+            eventType.value = topic;
+            updatePreview();
+            saveState();
+          });
+          templateGrid.appendChild(btn);
+        });
+      }
+
+      // ================================================================
       //  UPDATE PREVIEW
-      // ============================================================
+      // ================================================================
       function updatePreview() {
         // Title
-        previewTitle.textContent = cardTitle.value || 'بدون عنوان';
+        previewTitle.textContent = cardTitle.value || 'Untitled';
 
         // Event
         const eventMap = {
-          invite: '🎉 دعوت',
-          reconcile: '🤝 آشتی',
-          birthday: '🎂 تولد',
-          outing: '🚗 برنامه سفر',
-          note: '📝 یادداشت',
-          poem: '📜 شعر',
-          art: '🎨 اثر هنری'
+          invite: '🎉 Invite',
+          reconcile: '🤝 Reconcile',
+          birthday: '🎂 Birthday',
+          outing: '🚗 Outing',
+          love: '❤️ Love',
+          miss: '😢 Miss You',
+          note: '📝 Note',
+          poem: '📜 Poem',
+          art: '🎨 Art'
         };
-        previewEvent.textContent = eventMap[eventType.value] || 'رویداد';
+        previewEvent.textContent = eventMap[eventType.value] || 'Event';
 
         // Text
-        previewText.textContent = cardText.value || 'متن خود را وارد کنید ...';
+        previewText.textContent = cardText.value || 'Write your message...';
 
         // Location
-        previewLocation.textContent = cardLocation.value || 'مکان نامشخص';
+        previewLocation.textContent = cardLocation.value || 'Unknown place';
 
         // Date & Time
         let dateVal = cardDate.value;
         let timeVal = cardTime.value;
         if (dateVal && timeVal) {
           const d = new Date(dateVal + 'T' + timeVal);
-          previewDatetime.textContent = d.toLocaleDateString('fa-IR') + ' ' + d.toLocaleTimeString('fa-IR', { hour: '2-digit',
-            minute: '2-digit' });
+          previewDatetime.textContent = d.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
         } else if (dateVal) {
           const d = new Date(dateVal);
-          previewDatetime.textContent = d.toLocaleDateString('fa-IR');
+          previewDatetime.textContent = d.toLocaleDateString('en-US', { dateStyle: 'medium' });
         } else {
-          previewDatetime.textContent = 'تاریخ و ساعت مشخص نشده';
+          previewDatetime.textContent = 'No date set';
         }
 
-        // Mood & Weather (badges)
-        const moodMap = { happy: '😊 خوب', kind: '🥰 مهربون', angry: '😤 عصبی', bored: '😑 بی‌حوصله' };
-        previewMood.textContent = moodMap[currentMood] || '😊 خوب';
+        // Mood & Weather
+        const moodMap = {
+          happy: '😊 Happy',
+          kind: '🥰 Kind',
+          angry: '😤 Angry',
+          bored: '😑 Bored',
+          love: '😍 Love',
+          sad: '😢 Sad',
+          excited: '🤩 Excited',
+          calm: '😌 Calm'
+        };
+        previewMood.textContent = moodMap[currentMood] || '😊 Happy';
 
-        const weatherMap = { sunny: '☀️ آفتابی', cloudy: '☁️ ابری', rainy: '🌧️ بارانی', snowy: '❄️ برفی' };
+        const weatherMap = {
+          sunny: '☀️ Sunny',
+          cloudy: '☁️ Cloudy',
+          rainy: '🌧️ Rainy',
+          snowy: '❄️ Snowy',
+          stormy: '⛈️ Stormy',
+          windy: '💨 Windy',
+          foggy: '🌫️ Foggy'
+        };
         previewWeather.textContent = weatherMap[currentWeather] || '☀️';
 
         // Emojis
         previewEmojis.innerHTML = selectedEmojiList.map(e => `<span>${e}</span>`).join('');
 
-        // Apply theme classes to body and preview
+        // Apply Theme
         applyTheme(themeSelect.value);
 
-        // Apply font
+        // Font
         cardPreview.style.fontFamily = fontSelect.value + ', sans-serif';
 
-        // Apply mood color accent (just a subtle border)
+        // Border
+        cardPreview.style.borderStyle = currentBorder;
+        cardPreview.style.borderColor = borderColorInput.value;
+        cardPreview.style.borderWidth = borderWidthInput.value + 'px';
+
+        // Font size, line height, text color, shadow, opacity
+        const fs = fontSizeRange.value;
+        cardPreview.style.fontSize = fs + 'px';
+        fontSizeLabel.textContent = fs + 'px';
+
+        const lh = lineHeightRange.value;
+        cardPreview.style.lineHeight = lh;
+        lineHeightLabel.textContent = lh;
+
+        cardPreview.style.color = textColorInput.value;
+
+        const shadow = shadowRange.value;
+        cardPreview.style.boxShadow = `0 ${shadow}px ${shadow*2}px rgba(0,0,0,0.5)`;
+        shadowLabel.textContent = shadow + 'px';
+
+        const op = opacityRange.value;
+        cardPreview.style.opacity = op;
+        opacityLabel.textContent = op;
+
+        // Background Image
+        if (bgImageDataURL) {
+          cardPreview.style.backgroundImage = `url(${bgImageDataURL})`;
+          cardPreview.style.backgroundSize = 'cover';
+          cardPreview.style.backgroundPosition = 'center';
+        } else {
+          // if we have a theme, it will override, but we keep it
+          // we'll set background in applyTheme
+        }
+
+        // Mood-based accent (border glow)
         const moodColors = {
           happy: '#f093fb',
           kind: '#4facfe',
           angry: '#f5576c',
-          bored: '#a8a8b8'
+          bored: '#a8a8b8',
+          love: '#ff6b81',
+          sad: '#4a69bd',
+          excited: '#f9ca24',
+          calm: '#7ed6df'
         };
-        cardPreview.style.borderColor = moodColors[currentMood] || 'rgba(255,255,255,0.06)';
-        cardPreview.style.boxShadow = `0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px ${moodColors[currentMood]}40`;
+        cardPreview.style.boxShadow = `0 ${shadow}px ${shadow*2}px rgba(0,0,0,0.4), 0 0 0 2px ${moodColors[currentMood] || '#f5576c'}40`;
 
-        // Save state to localStorage
+        // Save state
         saveState();
       }
 
-      // ============================================================
-      //  THEME ENGINE
-      // ============================================================
+      // ================================================================
+      //  THEME ENGINE (30+ themes)
+      // ================================================================
       function applyTheme(theme) {
-        const body = document.body;
-        // remove all theme classes
-        body.classList.remove('dark-theme', 'light-theme', 'theme-glass');
+        // Remove all theme classes
+        const allThemes = [
+          'dark', 'light', 'glass', 'aurora', 'sunset', 'ocean', 'forest',
+          'lavender', 'rose', 'night', 'fire', 'ice', 'candy', 'midnight',
+          'blossom', 'gold', 'silver', 'neon', 'pastel', 'royal', 'sakura',
+          'galaxy', 'lime', 'coral', 'velvet', 'mint', 'peach', 'indigo',
+          'tropical', 'vintage', 'cyber'
+        ];
+        allThemes.forEach(cls => {
+          cardPreview.classList.remove('theme-' + cls);
+        });
+        // Special base themes
+        cardPreview.classList.remove('theme-dark', 'theme-light', 'theme-glass');
+
         if (theme === 'dark') {
-          body.classList.add('dark-theme');
-          cardPreview.style.background = 'linear-gradient(145deg, #1e1e2f, #2a2a3e)';
+          cardPreview.classList.add('theme-dark');
+          cardPreview.style.background = '#1a1a2e';
           cardPreview.style.color = '#eee';
         } else if (theme === 'light') {
-          body.classList.add('light-theme');
+          cardPreview.classList.add('theme-light');
           cardPreview.style.background = '#ffffff';
           cardPreview.style.color = '#111';
         } else if (theme === 'glass') {
-          body.classList.add('theme-glass');
+          cardPreview.classList.add('theme-glass');
           cardPreview.style.background = 'rgba(255,255,255,0.08)';
           cardPreview.style.color = '#fff';
-          // keep glass effect
+        } else {
+          // gradient themes
+          cardPreview.classList.add('theme-' + theme);
+          // reset background style if image is not set
+          if (!bgImageDataURL) {
+            cardPreview.style.background = '';
+          }
         }
-        // store
-        localStorage.setItem('ghTheme', theme);
+
+        // If background image is set, override
+        if (bgImageDataURL) {
+          cardPreview.style.backgroundImage = `url(${bgImageDataURL})`;
+          cardPreview.style.backgroundSize = 'cover';
+          cardPreview.style.backgroundPosition = 'center';
+        } else {
+          if (theme !== 'dark' && theme !== 'light' && theme !== 'glass') {
+            cardPreview.style.backgroundImage = '';
+          }
+        }
       }
 
-      // ============================================================
+      // ================================================================
       //  STATE PERSISTENCE
-      // ============================================================
+      // ================================================================
       function saveState() {
         const state = {
           title: cardTitle.value,
@@ -838,18 +1405,27 @@
           event: eventType.value,
           mood: currentMood,
           weather: currentWeather,
+          border: currentBorder,
           emojis: selectedEmojiList,
           theme: themeSelect.value,
           font: fontSelect.value,
+          fontSize: fontSizeRange.value,
+          lineHeight: lineHeightRange.value,
+          textColor: textColorInput.value,
+          shadow: shadowRange.value,
+          opacity: opacityRange.value,
+          borderColor: borderColorInput.value,
+          borderWidth: borderWidthInput.value,
+          bgImage: bgImageDataURL
         };
         try {
-          localStorage.setItem('ghCardState', JSON.stringify(state));
+          localStorage.setItem('pcProState', JSON.stringify(state));
         } catch (e) {}
       }
 
       function loadState() {
         try {
-          const raw = localStorage.getItem('ghCardState');
+          const raw = localStorage.getItem('pcProState');
           if (!raw) return;
           const state = JSON.parse(raw);
           cardTitle.value = state.title || '';
@@ -862,36 +1438,44 @@
           eventType.value = state.event || 'invite';
           currentMood = state.mood || 'happy';
           currentWeather = state.weather || 'sunny';
+          currentBorder = state.border || 'solid';
           selectedEmojiList = state.emojis || [];
           themeSelect.value = state.theme || 'dark';
-          fontSelect.value = state.font || 'Vazirmatn';
+          fontSelect.value = state.font || 'Roboto';
+          fontSizeRange.value = state.fontSize || 18;
+          lineHeightRange.value = state.lineHeight || 1.7;
+          textColorInput.value = state.textColor || '#ffffff';
+          shadowRange.value = state.shadow || 8;
+          opacityRange.value = state.opacity || 0.95;
+          borderColorInput.value = state.borderColor || '#f5576c';
+          borderWidthInput.value = state.borderWidth || 3;
+          bgImageDataURL = state.bgImage || null;
 
-          // sync mood badges
+          // sync badges
           moodOptions.forEach(el => {
             el.classList.toggle('active', el.dataset.mood === currentMood);
           });
           weatherOptions.forEach(el => {
             el.classList.toggle('active', el.dataset.weather === currentWeather);
           });
+          borderOptions.forEach(el => {
+            el.classList.toggle('active', el.dataset.border === currentBorder);
+          });
 
-          // update emoji display
           renderSelectedEmojis();
-
-          // update map
           updateMapFromCoords();
           updatePreview();
         } catch (e) { /* ignore */ }
       }
 
-      // ============================================================
+      // ================================================================
       //  EMOJI HANDLER
-      // ============================================================
+      // ================================================================
       function renderSelectedEmojis() {
-        selectedEmojis.innerHTML = selectedEmojiList.map(e =>
+        selectedEmojisContainer.innerHTML = selectedEmojiList.map(e =>
           `<span style="font-size:1.8rem;cursor:pointer;" data-emoji="${e}">${e}</span>`
         ).join('');
-        // click to remove
-        selectedEmojis.querySelectorAll('span').forEach(el => {
+        selectedEmojisContainer.querySelectorAll('span').forEach(el => {
           el.addEventListener('click', function() {
             const em = this.dataset.emoji;
             selectedEmojiList = selectedEmojiList.filter(e => e !== em);
@@ -901,29 +1485,31 @@
         });
       }
 
-      // ============================================================
-      //  EXPORT FUNCTIONS (Image, PDF, Print)
-      // ============================================================
+      // ================================================================
+      //  EXPORT FUNCTIONS
+      // ================================================================
       function exportImage() {
         const node = document.getElementById('card-preview');
         html2canvas(node, {
-          scale: 2,
+          scale: 2.5,
           useCORS: true,
-          backgroundColor: null
+          backgroundColor: null,
+          logging: false
         }).then(canvas => {
           const link = document.createElement('a');
-          link.download = 'card.png';
+          link.download = 'postcard.png';
           link.href = canvas.toDataURL('image/png');
           link.click();
-        }).catch(err => alert('خطا در ساخت تصویر: ' + err));
+        }).catch(err => alert('Error generating image: ' + err));
       }
 
       function exportPDF() {
         const node = document.getElementById('card-preview');
         html2canvas(node, {
-          scale: 2,
+          scale: 2.5,
           useCORS: true,
-          backgroundColor: null
+          backgroundColor: null,
+          logging: false
         }).then(canvas => {
           const imgData = canvas.toDataURL('image/png');
           const { jsPDF } = window.jspdf;
@@ -931,17 +1517,17 @@
           const pdfWidth = pdf.internal.pageSize.getWidth();
           const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
           pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-          pdf.save('card.pdf');
-        }).catch(err => alert('خطا در ساخت PDF: ' + err));
+          pdf.save('postcard.pdf');
+        }).catch(err => alert('Error generating PDF: ' + err));
       }
 
       function printCard() {
         window.print();
       }
 
-      // ============================================================
+      // ================================================================
       //  RESET
-      // ============================================================
+      // ================================================================
       function resetAll() {
         cardTitle.value = '';
         cardText.value = '';
@@ -953,48 +1539,49 @@
         eventType.value = 'invite';
         currentMood = 'happy';
         currentWeather = 'sunny';
+        currentBorder = 'solid';
         selectedEmojiList = [];
         themeSelect.value = 'dark';
-        fontSelect.value = 'Vazirmatn';
+        fontSelect.value = 'Roboto';
+        fontSizeRange.value = 18;
+        lineHeightRange.value = 1.7;
+        textColorInput.value = '#ffffff';
+        shadowRange.value = 8;
+        opacityRange.value = 0.95;
+        borderColorInput.value = '#f5576c';
+        borderWidthInput.value = 3;
+        bgImageDataURL = null;
+        bgImageInput.value = '';
 
         moodOptions.forEach(el => el.classList.toggle('active', el.dataset.mood === 'happy'));
         weatherOptions.forEach(el => el.classList.toggle('active', el.dataset.weather === 'sunny'));
+        borderOptions.forEach(el => el.classList.toggle('active', el.dataset.border === 'solid'));
         renderSelectedEmojis();
         if (mapInstance) {
           mapInstance.setView([35.6892, 51.3890], 13);
           marker.setLatLng([35.6892, 51.3890]);
         }
-        localStorage.removeItem('ghCardState');
+        localStorage.removeItem('pcProState');
         updatePreview();
       }
 
-      // ============================================================
+      // ================================================================
       //  EVENT LISTENERS
-      // ============================================================
-      // Inputs
+      // ================================================================
       cardTitle.addEventListener('input', updatePreview);
       cardText.addEventListener('input', updatePreview);
       cardDate.addEventListener('input', updatePreview);
       cardTime.addEventListener('input', updatePreview);
       cardLocation.addEventListener('input', updatePreview);
-      latInput.addEventListener('input', function() {
-        updateMapFromCoords();
-        updatePreview();
-      });
-      lngInput.addEventListener('input', function() {
-        updateMapFromCoords();
-        updatePreview();
-      });
+      latInput.addEventListener('input', function() { updateMapFromCoords();
+        updatePreview(); });
+      lngInput.addEventListener('input', function() { updateMapFromCoords();
+        updatePreview(); });
       eventType.addEventListener('change', updatePreview);
-      themeSelect.addEventListener('change', function() {
-        applyTheme(this.value);
-        updatePreview();
-        saveState();
-      });
-      fontSelect.addEventListener('change', function() {
-        updatePreview();
-        saveState();
-      });
+      themeSelect.addEventListener('change', function() { updatePreview();
+        saveState(); });
+      fontSelect.addEventListener('change', function() { updatePreview();
+        saveState(); });
 
       // Mood
       moodOptions.forEach(el => {
@@ -1016,6 +1603,16 @@
         });
       });
 
+      // Border
+      borderOptions.forEach(el => {
+        el.addEventListener('click', function() {
+          borderOptions.forEach(o => o.classList.remove('active'));
+          this.classList.add('active');
+          currentBorder = this.dataset.border;
+          updatePreview();
+        });
+      });
+
       // Emoji picker
       emojiPicker.querySelectorAll('span').forEach(el => {
         el.addEventListener('click', function() {
@@ -1024,11 +1621,45 @@
             selectedEmojiList.push(em);
             renderSelectedEmojis();
             updatePreview();
+          } else {
+            // remove if already selected
+            selectedEmojiList = selectedEmojiList.filter(e => e !== em);
+            renderSelectedEmojis();
+            updatePreview();
           }
         });
       });
 
-      // Export buttons
+      // Range sliders
+      fontSizeRange.addEventListener('input', updatePreview);
+      lineHeightRange.addEventListener('input', updatePreview);
+      textColorInput.addEventListener('input', updatePreview);
+      shadowRange.addEventListener('input', updatePreview);
+      opacityRange.addEventListener('input', updatePreview);
+      borderColorInput.addEventListener('input', updatePreview);
+      borderWidthInput.addEventListener('input', updatePreview);
+
+      // Background Image
+      bgImageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(ev) {
+            bgImageDataURL = ev.target.result;
+            updatePreview();
+            saveState();
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      removeBgBtn.addEventListener('click', function() {
+        bgImageDataURL = null;
+        bgImageInput.value = '';
+        updatePreview();
+        saveState();
+      });
+
+      // Export
       document.getElementById('downloadImageBtn').addEventListener('click', exportImage);
       document.getElementById('downloadPdfBtn').addEventListener('click', exportPDF);
       document.getElementById('printBtn').addEventListener('click', printCard);
@@ -1036,13 +1667,13 @@
       // Reset
       resetBtn.addEventListener('click', resetAll);
 
-      // ============================================================
+      // ================================================================
       //  INIT
-      // ============================================================
+      // ================================================================
       window.addEventListener('load', function() {
         initMap();
-        loadState();
-        // set default date
+        renderTemplates();
+        // Set default date/time
         if (!cardDate.value) {
           const today = new Date().toISOString().split('T')[0];
           cardDate.value = today;
@@ -1051,14 +1682,18 @@
           const now = new Date();
           cardTime.value = now.toTimeString().slice(0, 5);
         }
+        loadState();
+        // if no state, set default text
+        if (!localStorage.getItem('pcProState')) {
+          cardText.value = 'Write your message here...';
+        }
         updatePreview();
-        // resize map after layout
-        setTimeout(() => { if (mapInstance) mapInstance.invalidateSize(); }, 300);
+        setTimeout(() => { if (mapInstance) mapInstance.invalidateSize(); }, 400);
       });
 
-      // ============================================================
-      //  BACKGROUND PARTICLES (canvas)
-      // ============================================================
+      // ================================================================
+      //  BACKGROUND PARTICLES (advanced)
+      // ================================================================
       const canvas = document.getElementById('bg-canvas');
       const ctx = canvas.getContext('2d');
       let particles = [];
@@ -1075,10 +1710,11 @@
         constructor() {
           this.x = Math.random() * w;
           this.y = Math.random() * h;
-          this.size = Math.random() * 2.5 + 0.5;
-          this.speedX = (Math.random() - 0.5) * 0.6;
-          this.speedY = (Math.random() - 0.5) * 0.6;
-          this.opacity = Math.random() * 0.5 + 0.2;
+          this.size = Math.random() * 3 + 0.5;
+          this.speedX = (Math.random() - 0.5) * 0.8;
+          this.speedY = (Math.random() - 0.5) * 0.8;
+          this.opacity = Math.random() * 0.5 + 0.15;
+          this.color = `hsla(${Math.random() * 60 + 300}, 70%, 60%, ${this.opacity})`;
         }
         update() {
           this.x += this.speedX;
@@ -1089,12 +1725,12 @@
         draw() {
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
+          ctx.fillStyle = this.color;
           ctx.fill();
         }
       }
 
-      function initParticles(count = 120) {
+      function initParticles(count = 180) {
         particles = [];
         for (let i = 0; i < count; i++) {
           particles.push(new Particle());
@@ -1108,23 +1744,33 @@
           p.update();
           p.draw();
         });
+        // draw connecting lines
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 120) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(255,255,255,${0.08 * (1 - dist/120)})`;
+              ctx.lineWidth = 0.6;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
         requestAnimationFrame(animateParticles);
       }
       animateParticles();
 
-      // Re-init particles on resize
+      // Re-init on resize
       window.addEventListener('resize', function() {
         resizeCanvas();
-        initParticles(120);
+        initParticles(180);
       });
 
-      // ============================================================
-      //  ADDITIONAL: dynamic gradient background for card preview
-      // ============================================================
-      // We already have a gradient in the card, but we can add extra
-      // using CSS. We'll just keep it.
-
-      console.log('🚀 GitHuby Card Studio loaded successfully!');
+      console.log('🚀 PostCard Pro Studio loaded successfully!');
     })();
   </script>
 </body>
