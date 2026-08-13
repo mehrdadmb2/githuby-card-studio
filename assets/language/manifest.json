@@ -1,0 +1,9 @@
+{
+  "languages": [
+    { "id": "en", "label": "English", "flag": "🇬🇧" },
+    { "id": "fa", "label": "فارسی", "flag": "🇮🇷" },
+    { "id": "de", "label": "Deutsch", "flag": "🇩🇪" },
+    { "id": "ru", "label": "Русский", "flag": "🇷🇺" },
+    { "id": "ja", "label": "日本語", "flag": "🇯🇵" }
+  ]
+}
