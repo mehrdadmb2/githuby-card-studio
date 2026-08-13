@@ -1,0 +1,17 @@
+{
+  "title_placeholder": "e.g. Let's Celebrate!",
+  "message_placeholder": "Write your message...",
+  "location_placeholder": "Address",
+  "untitled": "Untitled",
+  "unknown": "Unknown",
+  "no_date": "No date",
+  "event_invite": "🎉 Invite",
+  "event_reconcile": "🤝 Reconcile",
+  "event_birthday": "🎂 Birthday",
+  "event_outing": "🚗 Outing",
+  "event_love": "❤️ Love",
+  "event_miss": "😢 Miss You",
+  "event_note": "📝 Note",
+  "event_poem": "📜 Poem",
+  "event_art": "🎨 Art"
+}
