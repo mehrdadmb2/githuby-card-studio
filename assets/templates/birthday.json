@@ -1,7 +1,12 @@
 {
-  "en": "Happy Birthday! 🎂 May your day be filled with joy and laughter.",
-  "fa": "تولدت مبارک! 🎂 روزت پر از شادی و خنده.",
-  "de": "Alles Gute zum Geburtstag! 🎂 Möge dein Tag voller Freude sein.",
-  "ru": "С днём рождения! 🎂 Пусть твой день будет полон радости.",
-  "ja": "お誕生日おめでとう！ 🎂 素晴らしい1日になりますように。"
+  "title": "🎂 Happy Birthday!",
+  "emojis": ["🎂", "🎈", "🎁", "🎉", "🥳", "🎊", "🎶", "💝"],
+  "theme": "birthday",
+  "text": {
+    "en": "Happy Birthday! 🎂 May your day be filled with joy, laughter, and all the things you love. You deserve the best today and always! 🥳",
+    "fa": "تولدت مبارک! 🎂 روزت پر از شادی، خنده و همه چیزهایی که دوست داری. امروز و همیشه لایق بهترین‌ها هستی! 🥳",
+    "de": "Alles Gute zum Geburtstag! 🎂 Möge dein Tag voller Freude, Lachen und all den Dingen sein, die du liebst. Du verdienst das Beste heute und immer! 🥳",
+    "ru": "С днём рождения! 🎂 Пусть твой день будет наполнен радостью, смехом и всем, что ты любишь. Ты заслуживаешь лучшего сегодня и всегда! 🥳",
+    "ja": "お誕生日おめでとう！ 🎂 あなたの日が喜び、笑い、そして愛するすべてのもので満たされますように。今日もこれからも最高のあなたでいて！ 🥳"
+  }
 }
