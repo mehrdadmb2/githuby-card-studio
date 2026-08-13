@@ -1,0 +1,12 @@
+{
+  "title": "🎉 You're Invited!",
+  "emojis": ["🎉", "📩", "🎊", "🥂", "✨", "🎈", "💌"],
+  "theme": "invite",
+  "text": {
+    "en": "You are cordially invited to join us for a wonderful event. Let's celebrate together and make memories! 🥂",
+    "fa": "شما را صمیمانه دعوت می‌کنیم تا در یک رویداد فوق‌العاده به ما بپیوندید. بیا با هم جشن بگیریم و خاطرات بسازیم! 🥂",
+    "de": "Du bist herzlich eingeladen, an einer wunderbaren Veranstaltung teilzunehmen. Lass uns gemeinsam feiern und Erinnerungen schaffen! 🥂",
+    "ru": "Вы сердечно приглашены присоединиться к нам на замечательном мероприятии. Давайте праздновать вместе и создавать воспоминания! 🥂",
+    "ja": "素晴らしいイベントにご招待します。一緒に祝って思い出を作りましょう！ 🥂"
+  }
+}
