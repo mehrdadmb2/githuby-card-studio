@@ -434,67 +434,60 @@
   // ============================================================
   // 5. TEMPLATE MANAGER – RENDER AND HANDLE CLICKS
   // ============================================================
-  TemplateManager.renderTemplateButtons(templateGrid, async (templateId) => {
-    const lang = LanguageManager.getCurrentLang();
-    const template = await TemplateManager.loadTemplate(templateId);
-    if (!template) {
-      console.warn(`Template ${templateId} not found.`);
-      return;
+  // ====== در تابع کلیک روی تمپلیت ======
+TemplateManager.renderTemplateButtons(templateGrid, async (templateId) => {
+  const lang = LanguageManager.getCurrentLang();
+  const template = await TemplateManager.loadTemplate(templateId);
+  if (!template) return;
+
+  // 1. Title
+  const titleInput = document.getElementById('cardTitle');
+  if (titleInput) titleInput.value = template.title || '';
+
+  // 2. Text
+  const textArea = document.getElementById('cardText');
+  if (textArea) {
+    const text = template.text && template.text[lang] ? template.text[lang] : (template.text ? template.text.en : '');
+    textArea.value = text || '';
+  }
+
+  // 3. Emojis
+  if (template.emojis && Array.isArray(template.emojis)) {
+    const state = CardManager.getState();
+    state.emojis = template.emojis;
+    const emojiPicker = document.getElementById('emojiPicker');
+    if (emojiPicker) {
+      emojiPicker.querySelectorAll('span').forEach(el => {
+        el.classList.toggle('selected-emoji', state.emojis.includes(el.textContent));
+      });
     }
+    CardManager.setState(state);
+  }
 
-    // --- Title ---
-    const titleInput = document.getElementById('cardTitle');
-    if (titleInput) titleInput.value = template.title || '';
-
-    // --- Text ---
-    const textArea = document.getElementById('cardText');
-    if (textArea) {
-      const text = template.text && template.text[lang] ? template.text[lang] : (template.text ? template.text.en : '');
-      textArea.value = text || '';
+  // 4. Theme – اعمال مستقیم (بدون await و لود فایل اضافی)
+  if (template.theme) {
+    const themeSelect = document.getElementById('themeSelect');
+    if (themeSelect) {
+      themeSelect.value = template.theme;
     }
-
-    // --- Emojis ---
-    if (template.emojis && Array.isArray(template.emojis)) {
-      const state = CardManager.getState();
-      state.emojis = template.emojis;
-      const emojiPicker = document.getElementById('emojiPicker');
-      if (emojiPicker) {
-        emojiPicker.querySelectorAll('span').forEach(el => {
-          el.classList.toggle('selected-emoji', state.emojis.includes(el.textContent));
-        });
-      }
-      CardManager.setState(state);
+    const cardPreview = document.getElementById('card-preview');
+    if (cardPreview) {
+      ThemeManager.applyTheme(template.theme, cardPreview);
     }
+    const state = CardManager.getState();
+    state.theme = template.theme;
+    CardManager.setState(state);
+  }
 
-    // --- THEME: Apply directly and update state ---
-    if (template.theme) {
-      // Update dropdown
-      const themeSelect = document.getElementById('themeSelect');
-      if (themeSelect) {
-        themeSelect.value = template.theme;
-      }
-      // Apply theme to card
-      const cardPreview = document.getElementById('card-preview');
-      if (cardPreview) {
-        await ThemeManager.applyTheme(template.theme, cardPreview);
-        console.log(`✅ Theme applied: ${template.theme}`);
-      }
-      // Update state
-      const state = CardManager.getState();
-      state.theme = template.theme;
-      CardManager.setState(state);
-    }
+  // 5. Event Type
+  const eventSelect = document.getElementById('eventType');
+  if (eventSelect && templateId) {
+    eventSelect.value = templateId;
+  }
 
-    // --- Event Type ---
-    const eventSelect = document.getElementById('eventType');
-    if (eventSelect && templateId) {
-      eventSelect.value = templateId;
-    }
-
-    // --- Final update ---
-    CardManager.updatePreview();
-  });
-
+  // 6. Final update
+  CardManager.updatePreview();
+});
   // ============================================================
   // 6. EVENT LISTENERS FOR HEADER CONTROLS
   // ============================================================
