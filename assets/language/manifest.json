@@ -4,6 +4,14 @@
     { "id": "fa", "label": "فارسی", "flag": "🇮🇷" },
     { "id": "de", "label": "Deutsch", "flag": "🇩🇪" },
     { "id": "ru", "label": "Русский", "flag": "🇷🇺" },
-    { "id": "ja", "label": "日本語", "flag": "🇯🇵" }
+    { "id": "ja", "label": "日本語", "flag": "🇯🇵" },
+    { "id": "es", "label": "Español", "flag": "🇪🇸" },
+    { "id": "fr", "label": "Français", "flag": "🇫🇷" },
+    { "id": "ar", "label": "العربية", "flag": "🇸🇦" },
+    { "id": "tr", "label": "Türkçe", "flag": "🇹🇷" },
+    { "id": "it", "label": "Italiano", "flag": "🇮🇹" },
+    { "id": "pt", "label": "Português", "flag": "🇵🇹" },
+    { "id": "ko", "label": "한국어", "flag": "🇰🇷" },
+    { "id": "zh", "label": "中文", "flag": "🇨🇳" }
   ]
 }
