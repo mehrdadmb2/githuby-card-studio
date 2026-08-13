@@ -1,6 +1,7 @@
-// ============================================================
+// ================================================================
 //  APP – Main entry point, orchestrates all modules
-// ============================================================
+//  Version: 2.0 (Full Dynamic Template Support)
+// ================================================================
 (async function() {
   'use strict';
 
@@ -224,15 +225,82 @@
   };
   CardManager.init(cardElements);
 
-  // 5. Template Manager – render buttons
+  // 5. Template Manager – render buttons with full template support
   const templateGrid = document.getElementById('templateGrid');
   TemplateManager.renderTemplateButtons(templateGrid, async (templateId) => {
     const lang = LanguageManager.getCurrentLang();
-    const content = await TemplateManager.loadTemplateContent(templateId, lang);
-    if (content) {
-      document.getElementById('cardText').value = content;
-      CardManager.updatePreview();
+    const template = await TemplateManager.loadTemplate(templateId);
+    if (!template) return;
+
+    // --- Apply all template data ---
+
+    // 1. Title
+    const titleInput = document.getElementById('cardTitle');
+    if (titleInput && template.title) {
+      titleInput.value = template.title;
     }
+
+    // 2. Text (with language support)
+    const textArea = document.getElementById('cardText');
+    if (textArea) {
+      let text = '';
+      if (template.text && typeof template.text === 'object') {
+        text = template.text[lang] || template.text.en || '';
+      }
+      textArea.value = text;
+    }
+
+    // 3. Emojis (preset)
+    if (template.emojis && Array.isArray(template.emojis)) {
+      const state = CardManager.getState();
+      state.emojis = template.emojis;
+      
+      // Update emoji picker visual selection
+      const emojiPicker = document.getElementById('emojiPicker');
+      if (emojiPicker) {
+        emojiPicker.querySelectorAll('span').forEach(el => {
+          el.classList.toggle('selected-emoji', state.emojis.includes(el.textContent));
+        });
+      }
+      
+      CardManager.setState(state);
+    }
+
+    // 4. Theme
+    if (template.theme) {
+      const themeSelect = document.getElementById('themeSelect');
+      if (themeSelect) {
+        themeSelect.value = template.theme;
+        const state = CardManager.getState();
+        state.theme = template.theme;
+        CardManager.setState(state);
+      }
+    }
+
+    // 5. Update event type dropdown
+    const eventSelect = document.getElementById('eventType');
+    if (eventSelect) {
+      // Map template id to event type (they match in our setup)
+      // but we also allow custom mapping
+      const eventMap = {
+        'birthday': 'birthday',
+        'reconcile': 'reconcile',
+        'love': 'love',
+        'outing': 'outing',
+        'miss': 'miss',
+        'invite': 'invite'
+      };
+      const eventValue = eventMap[templateId] || templateId;
+      if (eventSelect.querySelector(`option[value="${eventValue}"]`)) {
+        eventSelect.value = eventValue;
+      }
+    }
+
+    // 6. Force a full preview update
+    CardManager.updatePreview();
+
+    // 7. Save state to persist
+    CardManager.saveState?.();
   });
 
   // 6. Event listeners for header controls
@@ -251,7 +319,7 @@
   langSelect.addEventListener('change', async function() {
     await LanguageManager.setLanguage(this.value);
     // Optionally re-render templates with new language
-    // We'll just update preview
+    // For now, just update preview
     CardManager.updatePreview();
   });
 
@@ -299,5 +367,12 @@
     MapManager.invalidateSize();
   }, 300);
 
+  // 11. Load saved state (after all UI is ready)
+  // CardManager.init already loads state, but we ensure it's applied
+  setTimeout(() => {
+    CardManager.updatePreview();
+  }, 500);
+
   console.log('🚀 PostCard Pro Studio loaded successfully!');
+  console.log('ℹ️  Dynamic templates with full emoji & theme support enabled.');
 })();
