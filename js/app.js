@@ -1,9 +1,87 @@
 // ============================================================
-//  APP – Main entry point, orchestrates all modules
-//  Version 2.4 – Dynamic UI translation with data-i18n
+//  APP – Main entry point – with fallback translations
+//  Version 2.5 – added default translations for all keys
 // ============================================================
 (async function() {
   'use strict';
+
+  // ============================================================
+  // 0. DEFAULT TRANSLATIONS (fallback if JSON missing)
+  // ============================================================
+  const DEFAULT_TRANSLATIONS = {
+    "title_placeholder": "e.g. Let's Celebrate!",
+    "message_placeholder": "Write your message...",
+    "location_placeholder": "Address",
+    "untitled": "Untitled",
+    "unknown": "Unknown",
+    "no_date": "No date",
+    "event_label": "Event Type",
+    "event_invite": "🎉 Invite",
+    "event_reconcile": "🤝 Reconcile",
+    "event_birthday": "🎂 Birthday",
+    "event_outing": "🚗 Outing",
+    "event_love": "❤️ Love",
+    "event_miss": "😢 Miss You",
+    "event_note": "📝 Note",
+    "event_poem": "📜 Poem",
+    "event_art": "🎨 Art",
+    "customize": "Customize",
+    "preview": "Preview",
+    "quick_templates": "Quick Templates",
+    "auto_saved": "Auto-saved in your browser",
+    "donate_title": "Support the Project",
+    "donate_description": "If you enjoy using PostCard Pro Studio, consider donating to keep the project alive! 🙏",
+    "donate_warning": "Important: Send only the specified token to each address. Sending the wrong token will result in permanent loss of funds.",
+    "donate_thanks": "Thank you for your support! ❤️",
+    "copy": "Copy",
+    "copied": "✓ Copied!",
+    "share_title": "PostCard Pro Studio",
+    "share_text": "Check out my custom postcard!",
+    "share_error": "Share API not supported on this browser. You can download the image instead.",
+    "reset_confirm": "Reset all settings?",
+    "mood_label": "Mood",
+    "mood_happy": "😊 Happy",
+    "mood_kind": "🥰 Kind",
+    "mood_angry": "😤 Angry",
+    "mood_bored": "😑 Bored",
+    "mood_love": "😍 Love",
+    "mood_sad": "😢 Sad",
+    "mood_excited": "🤩 Excited",
+    "mood_calm": "😌 Calm",
+    "weather_label": "Weather",
+    "weather_sunny": "☀️ Sunny",
+    "weather_cloudy": "☁️ Cloudy",
+    "weather_rainy": "🌧️ Rainy",
+    "weather_snowy": "❄️ Snowy",
+    "weather_stormy": "⛈️ Stormy",
+    "weather_windy": "💨 Windy",
+    "weather_foggy": "🌫️ Foggy",
+    "border_label": "Border Style",
+    "border_solid": "Solid",
+    "border_dashed": "Dashed",
+    "border_dotted": "Dotted",
+    "border_double": "Double",
+    "border_groove": "Groove",
+    "border_ridge": "Ridge",
+    "border_inset": "Inset",
+    "border_outset": "Outset",
+    "border_none": "None",
+    "font_size": "Font Size (px)",
+    "line_height": "Line Height",
+    "text_color": "Text Color",
+    "shadow": "Shadow (px)",
+    "opacity": "Opacity",
+    "emojis_label": "Emojis (click to add/remove)",
+    "bg_image_label": "Background Image",
+    "remove_bg": "Remove",
+    "title_label": "Title",
+    "message_label": "Message / Text",
+    "date_label": "Date",
+    "time_label": "Time",
+    "location_label": "Location",
+    "border_color_label": "Border Color",
+    "border_width_label": "Border Width (px)"
+  };
 
   // ============================================================
   // 1. LOAD ALL MANIFESTS
@@ -175,7 +253,6 @@
 
   donateBtn.addEventListener('click', function() {
     donateModal.style.display = 'flex';
-    // Apply translations inside modal
     applyTranslations();
   });
 
@@ -196,13 +273,12 @@
       const span = document.getElementById(id);
       if (span) {
         navigator.clipboard.writeText(span.textContent).then(() => {
-          const original = this.textContent;
           this.innerHTML = '✓ Copied!';
           this.style.color = '#4caf50';
           setTimeout(() => {
             this.innerHTML = '<span data-i18n="copy">Copy</span>';
             this.style.color = '#aaa';
-            applyTranslations(); // re-apply translation
+            applyTranslations();
           }, 2000);
         }).catch(() => {
           const range = document.createRange();
@@ -210,7 +286,6 @@
           window.getSelection().removeAllRanges();
           window.getSelection().addRange(range);
           document.execCommand('copy');
-          const original = this.textContent;
           this.innerHTML = '✓ Copied!';
           this.style.color = '#4caf50';
           setTimeout(() => {
@@ -406,7 +481,7 @@
   `;
 
   // ============================================================
-  // 4. TRANSLATION FUNCTION
+  // 4. TRANSLATION FUNCTION (with fallback)
   // ============================================================
   function applyTranslations() {
     const lang = LanguageManager.getCurrentLang();
@@ -414,28 +489,33 @@
     // Update all elements with data-i18n attribute (textContent)
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
-      const translation = LanguageManager.getString(key);
-      if (translation) {
-        el.textContent = translation;
+      // Try to get translation from LanguageManager (loaded JSON)
+      let translation = LanguageManager.getString(key);
+      // If not found, use default translation
+      if (!translation) {
+        translation = DEFAULT_TRANSLATIONS[key] || key;
       }
+      el.textContent = translation;
     });
 
     // Update all elements with data-i18n-placeholder attribute (placeholder)
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
       const key = el.getAttribute('data-i18n-placeholder');
-      const translation = LanguageManager.getString(key);
-      if (translation) {
-        el.placeholder = translation;
+      let translation = LanguageManager.getString(key);
+      if (!translation) {
+        translation = DEFAULT_TRANSLATIONS[key] || key;
       }
+      el.placeholder = translation;
     });
 
     // Update title attribute for buttons and other elements
     document.querySelectorAll('[data-i18n-title]').forEach(el => {
       const key = el.getAttribute('data-i18n-title');
-      const translation = LanguageManager.getString(key);
-      if (translation) {
-        el.title = translation;
+      let translation = LanguageManager.getString(key);
+      if (!translation) {
+        translation = DEFAULT_TRANSLATIONS[key] || key;
       }
+      el.title = translation;
     });
   }
 
@@ -560,7 +640,8 @@
   });
 
   resetBtn.addEventListener('click', function() {
-    if (confirm(LanguageManager.getString('reset_confirm') || 'Reset all settings?')) {
+    const msg = LanguageManager.getString('reset_confirm') || DEFAULT_TRANSLATIONS.reset_confirm || 'Reset all settings?';
+    if (confirm(msg)) {
       localStorage.removeItem(CONFIG.CARD_STORAGE_KEY);
       location.reload();
     }
@@ -630,13 +711,13 @@
   // ============================================================
   // 12. APPLY TRANSLATIONS AND FINAL UPDATE
   // ============================================================
-  applyTranslations(); // Apply translations for the first time
+  applyTranslations(); // Apply translations for the first time (with fallback)
   
   setTimeout(() => {
     CardManager.updatePreview();
     MapManager.invalidateSize();
   }, 400);
 
-  console.log('🚀 PostCard Pro Studio v2.4 loaded successfully with dynamic translations!');
-  console.log('❤️ UI translations are now fully dynamic.');
+  console.log('🚀 PostCard Pro Studio v2.5 loaded successfully with fallback translations!');
+  console.log('❤️ All UI translations are now fully functional with fallback.');
 })();
