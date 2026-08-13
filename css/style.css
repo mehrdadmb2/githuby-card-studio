@@ -581,3 +581,93 @@ input[type="range"]::-webkit-slider-thumb {
   pointer-events: none;
   z-index: 0;
 }
+
+/* ============================================================
+   ADVANCED UI ENHANCEMENTS (v2.0)
+============================================================ */
+
+/* ---- Glow effect on hover for card ---- */
+#card-preview {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+#card-preview:hover {
+  transform: scale(1.01);
+  box-shadow: 0 20px 60px rgba(245, 87, 108, 0.2), 0 0 80px rgba(245, 87, 108, 0.05);
+}
+
+/* ---- Animated background particles (enhanced) ---- */
+#bg-canvas {
+  transition: opacity 0.6s;
+}
+
+/* ---- Donate Modal Animation ---- */
+#donateModal > div {
+  animation: modalFadeIn 0.3s ease-out;
+}
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ---- Copy button feedback ---- */
+.copyAddress {
+  transition: all 0.2s;
+}
+.copyAddress:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+}
+
+/* ---- Share & Donate buttons pulse animation ---- */
+#shareBtn, #donateBtn {
+  position: relative;
+}
+#donateBtn {
+  background: rgba(245, 87, 108, 0.15) !important;
+  border-color: rgba(245, 87, 108, 0.3) !important;
+}
+#donateBtn:hover {
+  background: rgba(245, 87, 108, 0.3) !important;
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(245, 87, 108, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(245, 87, 108, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 87, 108, 0); }
+}
+
+/* ---- Mood-based glow on card border (enhanced) ---- */
+.card-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ---- Responsive font size adjustments ---- */
+@media (max-width: 700px) {
+  .card-title {
+    font-size: 1.8rem !important;
+  }
+  .card-body {
+    font-size: 0.95rem !important;
+  }
+}
+
+/* ---- Smooth transitions for all interactive elements ---- */
+select, button, input, textarea, .badge-option, .emoji-grid span {
+  transition: all 0.25s ease;
+}
+
+/* ---- Custom scrollbar for donate modal ---- */
+#donateModal > div::-webkit-scrollbar {
+  width: 4px;
+}
+#donateModal > div::-webkit-scrollbar-thumb {
+  background: #f5576c;
+  border-radius: 8px;
+}
