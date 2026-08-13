@@ -1,6 +1,6 @@
 // ============================================================
 //  APP – Main entry point, orchestrates all modules
-//  Version 2.1 – with Donate, Share, Animations & Clear Warnings
+//  Version 2.2 – Fixed template theme application
 // ============================================================
 (async function() {
   'use strict';
@@ -43,7 +43,7 @@
   FontManager.populateFontSelect(fontSelect);
   LanguageManager.populateLangSelect(langSelect);
 
-  // --- Donate Section (initially hidden, shown on button click) ---
+  // --- Donate Section ---
   donateContainer.innerHTML = `
     <div id="donateModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); backdrop-filter:blur(10px); z-index:9999; display:flex; align-items:center; justify-content:center;">
       <div style="background:rgba(20,20,35,0.96); border-radius:32px; padding:30px; max-width:550px; width:92%; max-height:80vh; overflow-y:auto; border:1px solid rgba(255,255,255,0.1); box-shadow:0 30px 80px rgba(0,0,0,0.9); position:relative;">
@@ -51,11 +51,10 @@
         <h2 style="color:#fff; margin-bottom:16px;"><i class="fas fa-heart" style="color:#f5576c;"></i> Support the Project</h2>
         <p style="color:#aaa; margin-bottom:16px; font-size:0.9rem;">If you enjoy using PostCard Pro Studio, consider donating to keep the project alive! 🙏</p>
         
-        <!-- ⚠️ WARNING -->
         <div style="background:rgba(255,0,0,0.1); border-left:4px solid #ff4444; padding:10px 14px; border-radius:8px; margin-bottom:18px;">
           <p style="color:#ff6b6b; font-size:0.85rem; margin:0;">
             <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Send <strong>only</strong> the specified token to each address. 
-            Sending the wrong token (e.g., sending ETH to a BTC address) will result in <strong>permanent loss</strong> of funds.
+            Sending the wrong token will result in <strong>permanent loss</strong> of funds.
           </p>
         </div>
 
@@ -72,7 +71,6 @@
             </div>
             <button class="copyAddress" data-address="btc-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
-
           <!-- ETH -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fab fa-ethereum" style="color:#627eea; font-size:1.8rem; width:32px;"></i>
@@ -85,7 +83,6 @@
             </div>
             <button class="copyAddress" data-address="eth-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
-
           <!-- SOL -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fab fa-solana" style="color:#9945ff; font-size:1.8rem; width:32px;"></i>
@@ -98,8 +95,7 @@
             </div>
             <button class="copyAddress" data-address="sol-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
-
-          <!-- TRON (TRX) -->
+          <!-- TRON -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fab fa-tron" style="color:#ef4444; font-size:1.8rem; width:32px;"></i>
             <div style="flex:1; min-width:0;">
@@ -111,8 +107,7 @@
             </div>
             <button class="copyAddress" data-address="tron-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
-
-          <!-- BNB (BSC) -->
+          <!-- BNB -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fas fa-coins" style="color:#f0b90b; font-size:1.8rem; width:32px;"></i>
             <div style="flex:1; min-width:0;">
@@ -124,8 +119,7 @@
             </div>
             <button class="copyAddress" data-address="bnb-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
-
-          <!-- Polygon (MATIC) -->
+          <!-- Polygon -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fas fa-hexagon" style="color:#8247e5; font-size:1.8rem; width:32px;"></i>
             <div style="flex:1; min-width:0;">
@@ -137,8 +131,7 @@
             </div>
             <button class="copyAddress" data-address="polygon-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
-
-          <!-- TRC20 (USDT) – if you want to specify USDT -->
+          <!-- TRC20 USDT -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fas fa-qrcode" style="color:#26a17b; font-size:1.8rem; width:32px;"></i>
             <div style="flex:1; min-width:0;">
@@ -150,7 +143,6 @@
             </div>
             <button class="copyAddress" data-address="trc20-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
-
           <!-- TON -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fas fa-qrcode" style="color:#8b5cf6; font-size:1.8rem; width:32px;"></i>
@@ -164,7 +156,6 @@
             <button class="copyAddress" data-address="ton-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
           </div>
         </div>
-
         <p style="color:#666; margin-top:18px; font-size:0.7rem; text-align:center; border-top:1px solid rgba(255,255,255,0.05); padding-top:14px;">
           <i class="fas fa-shield-alt"></i> All donations are directly sent to the provided addresses. 
           We never store or request your private keys.
@@ -192,14 +183,13 @@
     }
   });
 
-  // Copy address function with feedback
+  // Copy address function
   document.querySelectorAll('.copyAddress').forEach(btn => {
     btn.addEventListener('click', function() {
       const id = this.dataset.address;
       const span = document.getElementById(id);
       if (span) {
-        const address = span.textContent.trim();
-        navigator.clipboard.writeText(address).then(() => {
+        navigator.clipboard.writeText(span.textContent).then(() => {
           const original = this.textContent;
           this.textContent = '✓ Copied!';
           this.style.color = '#4caf50';
@@ -208,7 +198,6 @@
             this.style.color = '#aaa';
           }, 2000);
         }).catch(() => {
-          // fallback
           const range = document.createRange();
           range.selectNode(span);
           window.getSelection().removeAllRanges();
@@ -246,7 +235,7 @@
     }
   });
 
-  // --- Controls Panel (all form groups) ---
+  // --- Controls Panel ---
   controlsContainer.innerHTML = `
     <!-- Event Type -->
     <div class="form-group">
@@ -443,25 +432,28 @@
   CardManager.init(cardElements);
 
   // ============================================================
-  // 5. TEMPLATE MANAGER
+  // 5. TEMPLATE MANAGER – RENDER AND HANDLE CLICKS
   // ============================================================
   TemplateManager.renderTemplateButtons(templateGrid, async (templateId) => {
     const lang = LanguageManager.getCurrentLang();
     const template = await TemplateManager.loadTemplate(templateId);
-    if (!template) return;
+    if (!template) {
+      console.warn(`Template ${templateId} not found.`);
+      return;
+    }
 
-    // Title
+    // --- Title ---
     const titleInput = document.getElementById('cardTitle');
     if (titleInput) titleInput.value = template.title || '';
 
-    // Text
+    // --- Text ---
     const textArea = document.getElementById('cardText');
     if (textArea) {
       const text = template.text && template.text[lang] ? template.text[lang] : (template.text ? template.text.en : '');
       textArea.value = text || '';
     }
 
-    // Emojis
+    // --- Emojis ---
     if (template.emojis && Array.isArray(template.emojis)) {
       const state = CardManager.getState();
       state.emojis = template.emojis;
@@ -474,32 +466,46 @@
       CardManager.setState(state);
     }
 
-    // Theme
+    // --- THEME: Apply directly and update state ---
     if (template.theme) {
+      // Update dropdown
       const themeSelect = document.getElementById('themeSelect');
       if (themeSelect) {
         themeSelect.value = template.theme;
-        const state = CardManager.getState();
-        state.theme = template.theme;
-        CardManager.setState(state);
       }
+      // Apply theme to card
+      const cardPreview = document.getElementById('card-preview');
+      if (cardPreview) {
+        await ThemeManager.applyTheme(template.theme, cardPreview);
+        console.log(`✅ Theme applied: ${template.theme}`);
+      }
+      // Update state
+      const state = CardManager.getState();
+      state.theme = template.theme;
+      CardManager.setState(state);
     }
 
-    // Event Type
+    // --- Event Type ---
     const eventSelect = document.getElementById('eventType');
     if (eventSelect && templateId) {
       eventSelect.value = templateId;
     }
 
+    // --- Final update ---
     CardManager.updatePreview();
   });
 
   // ============================================================
   // 6. EVENT LISTENERS FOR HEADER CONTROLS
   // ============================================================
-  themeSelect.addEventListener('change', function() {
+  themeSelect.addEventListener('change', async function() {
+    const themeId = this.value;
+    const cardPreview = document.getElementById('card-preview');
+    if (cardPreview) {
+      await ThemeManager.applyTheme(themeId, cardPreview);
+    }
     const state = CardManager.getState();
-    state.theme = this.value;
+    state.theme = themeId;
     CardManager.setState(state);
   });
 
@@ -568,6 +574,6 @@
     MapManager.invalidateSize();
   }, 400);
 
-  console.log('🚀 PostCard Pro Studio v2.1 loaded successfully!');
+  console.log('🚀 PostCard Pro Studio v2.2 loaded successfully!');
   console.log('❤️ Donation addresses with clear token labels and warnings added.');
 })();
