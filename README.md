@@ -292,5 +292,3 @@ python3 -m http.server 8000
 <p align="center">
   <img src="https://img.shields.io/badge/⭐_اگر_این_پروژه_را_دوست_دارید_⭐-FFD700?style=for-the-badge&logo=github&logoColor=black" alt="Star on GitHub" />
 </p>.
-
-حالا می‌توانید این فایل را به‌عنوان `README.md` در ریپازیتوری خود آپلود کنید. 🚀
