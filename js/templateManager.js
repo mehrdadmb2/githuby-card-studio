@@ -1,5 +1,5 @@
 // ============================================================
-//  TEMPLATE MANAGER – loads templates and populates grid
+//  TEMPLATE MANAGER – now returns full template object
 // ============================================================
 const TemplateManager = (function() {
   let templates = [];
@@ -24,15 +24,24 @@ const TemplateManager = (function() {
     }
   }
 
-  async function loadTemplateContent(templateId, lang) {
+  async function loadTemplate(templateId) {
     try {
       const res = await fetch(`assets/templates/${templateId}.json`);
       const data = await res.json();
-      return data[lang] || data.en || '';
+      return data;
     } catch (e) {
       console.warn(`Template ${templateId} not found.`);
-      return '';
+      return null;
     }
+  }
+
+  // Legacy: get text only
+  async function loadTemplateContent(templateId, lang) {
+    const data = await loadTemplate(templateId);
+    if (data && data.text) {
+      return data.text[lang] || data.text.en || '';
+    }
+    return '';
   }
 
   function renderTemplateButtons(container, onClick) {
@@ -51,6 +60,7 @@ const TemplateManager = (function() {
 
   return {
     loadTemplates,
+    loadTemplate,
     loadTemplateContent,
     renderTemplateButtons,
     get templates() { return templates; }
