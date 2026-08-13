@@ -1,6 +1,6 @@
 // ============================================================
 //  APP – Main entry point, orchestrates all modules
-//  Version 2.3 – Fixed background upload
+//  Version 2.4 – Dynamic UI translation with data-i18n
 // ============================================================
 (async function() {
   'use strict';
@@ -13,6 +13,10 @@
   await LanguageManager.loadLanguages();
   await TemplateManager.loadTemplates();
   await BackgroundManager.loadBackgrounds();
+
+  // Set default language from localStorage or CONFIG
+  const savedLang = localStorage.getItem('pcProLang') || CONFIG.DEFAULT_LANG;
+  await LanguageManager.setLanguage(savedLang);
 
   // ============================================================
   // 2. BUILD UI CONTROLS DYNAMICALLY
@@ -48,11 +52,11 @@
     <div id="donateModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); backdrop-filter:blur(10px); z-index:9999; display:flex; align-items:center; justify-content:center;">
       <div style="background:rgba(20,20,35,0.96); border-radius:32px; padding:30px; max-width:550px; width:92%; max-height:80vh; overflow-y:auto; border:1px solid rgba(255,255,255,0.1); box-shadow:0 30px 80px rgba(0,0,0,0.9); position:relative;">
         <button id="closeDonateModal" style="position:absolute; top:12px; right:16px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; opacity:0.6; transition:0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">&times;</button>
-        <h2 style="color:#fff; margin-bottom:16px;"><i class="fas fa-heart" style="color:#f5576c;"></i> Support the Project</h2>
-        <p style="color:#aaa; margin-bottom:16px; font-size:0.9rem;">If you enjoy using PostCard Pro Studio, consider donating to keep the project alive! 🙏</p>
+        <h2 style="color:#fff; margin-bottom:16px;"><i class="fas fa-heart" style="color:#f5576c;"></i> <span data-i18n="donate_title">Support the Project</span></h2>
+        <p style="color:#aaa; margin-bottom:16px; font-size:0.9rem;" data-i18n="donate_description">If you enjoy using PostCard Pro Studio, consider donating to keep the project alive! 🙏</p>
         
         <div style="background:rgba(255,0,0,0.1); border-left:4px solid #ff4444; padding:10px 14px; border-radius:8px; margin-bottom:18px;">
-          <p style="color:#ff6b6b; font-size:0.85rem; margin:0;">
+          <p style="color:#ff6b6b; font-size:0.85rem; margin:0;" data-i18n="donate_warning">
             <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Send <strong>only</strong> the specified token to each address. 
             Sending the wrong token will result in <strong>permanent loss</strong> of funds.
           </p>
@@ -69,7 +73,7 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="btc-address">bc1q6knq0g4w9axt7t204y3e4hk4kz4zkh8vxj2e3a</span>
             </div>
-            <button class="copyAddress" data-address="btc-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
+            <button class="copyAddress" data-address="btc-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
           </div>
           <!-- ETH -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
@@ -81,7 +85,7 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="eth-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
             </div>
-            <button class="copyAddress" data-address="eth-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
+            <button class="copyAddress" data-address="eth-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
           </div>
           <!-- SOL -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
@@ -93,7 +97,7 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="sol-address">7otC7qwCWqmrzbVA3XykjsZHbuKgrqaP2hE25NnByRDP</span>
             </div>
-            <button class="copyAddress" data-address="sol-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
+            <button class="copyAddress" data-address="sol-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
           </div>
           <!-- TRON -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
@@ -105,7 +109,7 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="tron-address">TGYN1zzeGUjuXipVPvS4gTUivQyAu7GNUm</span>
             </div>
-            <button class="copyAddress" data-address="tron-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
+            <button class="copyAddress" data-address="tron-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
           </div>
           <!-- BNB -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
@@ -117,7 +121,7 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="bnb-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
             </div>
-            <button class="copyAddress" data-address="bnb-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
+            <button class="copyAddress" data-address="bnb-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
           </div>
           <!-- Polygon -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
@@ -129,7 +133,7 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="polygon-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
             </div>
-            <button class="copyAddress" data-address="polygon-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
+            <button class="copyAddress" data-address="polygon-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
           </div>
           <!-- TRC20 USDT -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
@@ -141,7 +145,7 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="trc20-address">TYbqxzEWrvYPnLvGtk6JY6Sbh8DMqfjcYq</span>
             </div>
-            <button class="copyAddress" data-address="trc20-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
+            <button class="copyAddress" data-address="trc20-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
           </div>
           <!-- TON -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
@@ -153,14 +157,14 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="ton-address">UQBQU9KnjwIsdSGwG08b3L43Vy_wPlCg_3FaK9m4N2Toj84k</span>
             </div>
-            <button class="copyAddress" data-address="ton-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">Copy</button>
+            <button class="copyAddress" data-address="ton-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
           </div>
         </div>
         <p style="color:#666; margin-top:18px; font-size:0.7rem; text-align:center; border-top:1px solid rgba(255,255,255,0.05); padding-top:14px;">
           <i class="fas fa-shield-alt"></i> All donations are directly sent to the provided addresses. 
           We never store or request your private keys.
         </p>
-        <p style="color:#444; margin-top:6px; font-size:0.65rem; text-align:center;">Thank you for your support! ❤️</p>
+        <p style="color:#444; margin-top:6px; font-size:0.65rem; text-align:center;" data-i18n="donate_thanks">Thank you for your support! ❤️</p>
       </div>
     </div>
   `;
@@ -171,6 +175,8 @@
 
   donateBtn.addEventListener('click', function() {
     donateModal.style.display = 'flex';
+    // Apply translations inside modal
+    applyTranslations();
   });
 
   document.getElementById('closeDonateModal').addEventListener('click', function() {
@@ -191,11 +197,12 @@
       if (span) {
         navigator.clipboard.writeText(span.textContent).then(() => {
           const original = this.textContent;
-          this.textContent = '✓ Copied!';
+          this.innerHTML = '✓ Copied!';
           this.style.color = '#4caf50';
           setTimeout(() => {
-            this.textContent = original;
+            this.innerHTML = '<span data-i18n="copy">Copy</span>';
             this.style.color = '#aaa';
+            applyTranslations(); // re-apply translation
           }, 2000);
         }).catch(() => {
           const range = document.createRange();
@@ -204,11 +211,12 @@
           window.getSelection().addRange(range);
           document.execCommand('copy');
           const original = this.textContent;
-          this.textContent = '✓ Copied!';
+          this.innerHTML = '✓ Copied!';
           this.style.color = '#4caf50';
           setTimeout(() => {
-            this.textContent = original;
+            this.innerHTML = '<span data-i18n="copy">Copy</span>';
             this.style.color = '#aaa';
+            applyTranslations();
           }, 2000);
         });
       }
@@ -235,52 +243,54 @@
     }
   });
 
-  // --- Controls Panel ---
+  // ============================================================
+  // 3. BUILD CONTROLS WITH data-i18n ATTRIBUTES
+  // ============================================================
   controlsContainer.innerHTML = `
     <!-- Event Type -->
     <div class="form-group">
-      <label>Event Type</label>
+      <label data-i18n="event_label">Event Type</label>
       <select id="eventType">
-        <option value="invite">🎉 Invite</option>
-        <option value="reconcile">🤝 Reconcile</option>
-        <option value="birthday">🎂 Birthday</option>
-        <option value="outing">🚗 Outing</option>
-        <option value="love">❤️ Love</option>
-        <option value="miss">😢 Miss You</option>
-        <option value="note">📝 Note</option>
-        <option value="poem">📜 Poem</option>
-        <option value="art">🎨 Art</option>
+        <option value="invite" data-i18n="event_invite">🎉 Invite</option>
+        <option value="reconcile" data-i18n="event_reconcile">🤝 Reconcile</option>
+        <option value="birthday" data-i18n="event_birthday">🎂 Birthday</option>
+        <option value="outing" data-i18n="event_outing">🚗 Outing</option>
+        <option value="love" data-i18n="event_love">❤️ Love</option>
+        <option value="miss" data-i18n="event_miss">😢 Miss You</option>
+        <option value="note" data-i18n="event_note">📝 Note</option>
+        <option value="poem" data-i18n="event_poem">📜 Poem</option>
+        <option value="art" data-i18n="event_art">🎨 Art</option>
       </select>
     </div>
 
     <!-- Title -->
     <div class="form-group">
-      <label>Title</label>
-      <input type="text" id="cardTitle" placeholder="e.g. Let's Celebrate!" />
+      <label data-i18n="title_label">Title</label>
+      <input type="text" id="cardTitle" data-i18n-placeholder="title_placeholder" placeholder="e.g. Let's Celebrate!" />
     </div>
 
     <!-- Text -->
     <div class="form-group">
-      <label>Message / Text</label>
-      <textarea id="cardText" placeholder="Write your message..."></textarea>
+      <label data-i18n="message_label">Message / Text</label>
+      <textarea id="cardText" data-i18n-placeholder="message_placeholder" placeholder="Write your message..."></textarea>
     </div>
 
     <!-- Date & Time -->
     <div class="form-row">
       <div class="form-group">
-        <label>Date</label>
+        <label data-i18n="date_label">Date</label>
         <input type="date" id="cardDate" />
       </div>
       <div class="form-group">
-        <label>Time</label>
+        <label data-i18n="time_label">Time</label>
         <input type="time" id="cardTime" />
       </div>
     </div>
 
     <!-- Location & Map -->
     <div class="form-group">
-      <label>📍 Location</label>
-      <input type="text" id="cardLocation" placeholder="Address" />
+      <label data-i18n="location_label">📍 Location</label>
+      <input type="text" id="cardLocation" data-i18n-placeholder="location_placeholder" placeholder="Address" />
       <div id="map"></div>
       <div class="coord-inputs">
         <input type="text" id="latInput" placeholder="Latitude" />
@@ -290,99 +300,99 @@
 
     <!-- Mood -->
     <div class="form-group">
-      <label>Mood</label>
+      <label data-i18n="mood_label">Mood</label>
       <div class="badge-group" id="moodGroup">
-        <span class="badge-option active" data-mood="happy">😊 Happy</span>
-        <span class="badge-option" data-mood="kind">🥰 Kind</span>
-        <span class="badge-option" data-mood="angry">😤 Angry</span>
-        <span class="badge-option" data-mood="bored">😑 Bored</span>
-        <span class="badge-option" data-mood="love">😍 Love</span>
-        <span class="badge-option" data-mood="sad">😢 Sad</span>
-        <span class="badge-option" data-mood="excited">🤩 Excited</span>
-        <span class="badge-option" data-mood="calm">😌 Calm</span>
+        <span class="badge-option active" data-mood="happy" data-i18n="mood_happy">😊 Happy</span>
+        <span class="badge-option" data-mood="kind" data-i18n="mood_kind">🥰 Kind</span>
+        <span class="badge-option" data-mood="angry" data-i18n="mood_angry">😤 Angry</span>
+        <span class="badge-option" data-mood="bored" data-i18n="mood_bored">😑 Bored</span>
+        <span class="badge-option" data-mood="love" data-i18n="mood_love">😍 Love</span>
+        <span class="badge-option" data-mood="sad" data-i18n="mood_sad">😢 Sad</span>
+        <span class="badge-option" data-mood="excited" data-i18n="mood_excited">🤩 Excited</span>
+        <span class="badge-option" data-mood="calm" data-i18n="mood_calm">😌 Calm</span>
       </div>
     </div>
 
     <!-- Weather -->
     <div class="form-group">
-      <label>Weather</label>
+      <label data-i18n="weather_label">Weather</label>
       <div class="badge-group" id="weatherGroup">
-        <span class="badge-option active" data-weather="sunny">☀️ Sunny</span>
-        <span class="badge-option" data-weather="cloudy">☁️ Cloudy</span>
-        <span class="badge-option" data-weather="rainy">🌧️ Rainy</span>
-        <span class="badge-option" data-weather="snowy">❄️ Snowy</span>
-        <span class="badge-option" data-weather="stormy">⛈️ Stormy</span>
-        <span class="badge-option" data-weather="windy">💨 Windy</span>
-        <span class="badge-option" data-weather="foggy">🌫️ Foggy</span>
+        <span class="badge-option active" data-weather="sunny" data-i18n="weather_sunny">☀️ Sunny</span>
+        <span class="badge-option" data-weather="cloudy" data-i18n="weather_cloudy">☁️ Cloudy</span>
+        <span class="badge-option" data-weather="rainy" data-i18n="weather_rainy">🌧️ Rainy</span>
+        <span class="badge-option" data-weather="snowy" data-i18n="weather_snowy">❄️ Snowy</span>
+        <span class="badge-option" data-weather="stormy" data-i18n="weather_stormy">⛈️ Stormy</span>
+        <span class="badge-option" data-weather="windy" data-i18n="weather_windy">💨 Windy</span>
+        <span class="badge-option" data-weather="foggy" data-i18n="weather_foggy">🌫️ Foggy</span>
       </div>
     </div>
 
     <!-- Border Style -->
     <div class="form-group">
-      <label>Border Style</label>
+      <label data-i18n="border_label">Border Style</label>
       <div class="badge-group" id="borderGroup">
-        <span class="badge-option active" data-border="solid">Solid</span>
-        <span class="badge-option" data-border="dashed">Dashed</span>
-        <span class="badge-option" data-border="dotted">Dotted</span>
-        <span class="badge-option" data-border="double">Double</span>
-        <span class="badge-option" data-border="groove">Groove</span>
-        <span class="badge-option" data-border="ridge">Ridge</span>
-        <span class="badge-option" data-border="inset">Inset</span>
-        <span class="badge-option" data-border="outset">Outset</span>
-        <span class="badge-option" data-border="none">None</span>
+        <span class="badge-option active" data-border="solid" data-i18n="border_solid">Solid</span>
+        <span class="badge-option" data-border="dashed" data-i18n="border_dashed">Dashed</span>
+        <span class="badge-option" data-border="dotted" data-i18n="border_dotted">Dotted</span>
+        <span class="badge-option" data-border="double" data-i18n="border_double">Double</span>
+        <span class="badge-option" data-border="groove" data-i18n="border_groove">Groove</span>
+        <span class="badge-option" data-border="ridge" data-i18n="border_ridge">Ridge</span>
+        <span class="badge-option" data-border="inset" data-i18n="border_inset">Inset</span>
+        <span class="badge-option" data-border="outset" data-i18n="border_outset">Outset</span>
+        <span class="badge-option" data-border="none" data-i18n="border_none">None</span>
       </div>
     </div>
 
     <!-- Border Color & Width -->
     <div class="form-row">
       <div class="form-group">
-        <label>Border Color</label>
+        <label data-i18n="border_color_label">Border Color</label>
         <input type="color" id="borderColor" value="#f5576c" />
       </div>
       <div class="form-group">
-        <label>Border Width (px)</label>
+        <label data-i18n="border_width_label">Border Width (px)</label>
         <input type="number" id="borderWidth" value="3" min="0" max="20" />
       </div>
     </div>
 
     <!-- Background Image Upload -->
     <div class="form-group">
-      <label>🖼️ Background Image</label>
+      <label data-i18n="bg_image_label">🖼️ Background Image</label>
       <div class="bg-upload">
         <input type="file" id="bgImageInput" accept="image/*" />
-        <button id="removeBgBtn" style="background:rgba(255,0,0,0.15);border:1px solid rgba(255,0,0,0.2);padding:6px 14px;border-radius:30px;color:#ff6b6b;cursor:pointer;">Remove</button>
+        <button id="removeBgBtn" style="background:rgba(255,0,0,0.15);border:1px solid rgba(255,0,0,0.2);padding:6px 14px;border-radius:30px;color:#ff6b6b;cursor:pointer;" data-i18n="remove_bg">Remove</button>
       </div>
     </div>
 
     <!-- Advanced Styling -->
     <div class="form-group">
-      <label>Font Size (px)</label>
+      <label data-i18n="font_size">Font Size (px)</label>
       <input type="range" id="fontSizeRange" min="12" max="48" value="18" />
       <span id="fontSizeLabel">18px</span>
     </div>
     <div class="form-group">
-      <label>Line Height</label>
+      <label data-i18n="line_height">Line Height</label>
       <input type="range" id="lineHeightRange" min="1.0" max="3.0" step="0.1" value="1.7" />
       <span id="lineHeightLabel">1.7</span>
     </div>
     <div class="form-group">
-      <label>Text Color</label>
+      <label data-i18n="text_color">Text Color</label>
       <input type="color" id="textColor" value="#ffffff" />
     </div>
     <div class="form-group">
-      <label>Shadow (px)</label>
+      <label data-i18n="shadow">Shadow (px)</label>
       <input type="range" id="shadowRange" min="0" max="40" value="8" />
       <span id="shadowLabel">8px</span>
     </div>
     <div class="form-group">
-      <label>Opacity</label>
+      <label data-i18n="opacity">Opacity</label>
       <input type="range" id="opacityRange" min="0.2" max="1.0" step="0.05" value="0.95" />
       <span id="opacityLabel">0.95</span>
     </div>
 
     <!-- Emoji Picker -->
     <div class="form-group">
-      <label>Emojis (click to add/remove)</label>
+      <label data-i18n="emojis_label">Emojis (click to add/remove)</label>
       <div class="emoji-grid" id="emojiPicker">
         <span>❤️</span><span>🎈</span><span>🌟</span><span>💎</span><span>🌸</span>
         <span>🔥</span><span>🌈</span><span>⭐</span><span>🎁</span><span>🍀</span>
@@ -396,7 +406,41 @@
   `;
 
   // ============================================================
-  // 3. INITIALIZE MAP
+  // 4. TRANSLATION FUNCTION
+  // ============================================================
+  function applyTranslations() {
+    const lang = LanguageManager.getCurrentLang();
+    
+    // Update all elements with data-i18n attribute (textContent)
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const translation = LanguageManager.getString(key);
+      if (translation) {
+        el.textContent = translation;
+      }
+    });
+
+    // Update all elements with data-i18n-placeholder attribute (placeholder)
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      const translation = LanguageManager.getString(key);
+      if (translation) {
+        el.placeholder = translation;
+      }
+    });
+
+    // Update title attribute for buttons and other elements
+    document.querySelectorAll('[data-i18n-title]').forEach(el => {
+      const key = el.getAttribute('data-i18n-title');
+      const translation = LanguageManager.getString(key);
+      if (translation) {
+        el.title = translation;
+      }
+    });
+  }
+
+  // ============================================================
+  // 5. INITIALIZE MAP
   // ============================================================
   MapManager.init('map', 35.6892, 51.3890, (lat, lng) => {
     document.getElementById('latInput').value = lat.toFixed(6);
@@ -405,7 +449,7 @@
   });
 
   // ============================================================
-  // 4. CARD MANAGER
+  // 6. CARD MANAGER
   // ============================================================
   const cardElements = {
     title: document.getElementById('cardTitle'),
@@ -432,7 +476,7 @@
   CardManager.init(cardElements);
 
   // ============================================================
-  // 5. TEMPLATE MANAGER
+  // 7. TEMPLATE MANAGER
   // ============================================================
   TemplateManager.renderTemplateButtons(templateGrid, async (templateId) => {
     const lang = LanguageManager.getCurrentLang();
@@ -488,7 +532,7 @@
   });
 
   // ============================================================
-  // 6. EVENT LISTENERS FOR HEADER CONTROLS
+  // 8. EVENT LISTENERS FOR HEADER CONTROLS
   // ============================================================
   themeSelect.addEventListener('change', async function() {
     const themeId = this.value;
@@ -508,19 +552,22 @@
   });
 
   langSelect.addEventListener('change', async function() {
-    await LanguageManager.setLanguage(this.value);
-    CardManager.updatePreview();
+    const langId = this.value;
+    await LanguageManager.setLanguage(langId);
+    localStorage.setItem('pcProLang', langId);
+    applyTranslations(); // Translate UI
+    CardManager.updatePreview(); // Update card content with new language
   });
 
   resetBtn.addEventListener('click', function() {
-    if (confirm('Reset all settings?')) {
+    if (confirm(LanguageManager.getString('reset_confirm') || 'Reset all settings?')) {
       localStorage.removeItem(CONFIG.CARD_STORAGE_KEY);
       location.reload();
     }
   });
 
   // ============================================================
-  // 7. EXPORT BUTTONS
+  // 9. EXPORT BUTTONS
   // ============================================================
   document.getElementById('downloadImageBtn').addEventListener('click', function() {
     const cardEl = document.getElementById('card-preview');
@@ -537,7 +584,7 @@
   });
 
   // ============================================================
-  // 8. BACKGROUND IMAGE UPLOAD (FIXED)
+  // 10. BACKGROUND IMAGE UPLOAD
   // ============================================================
   const bgImageInput = document.getElementById('bgImageInput');
   if (bgImageInput) {
@@ -549,7 +596,6 @@
           const state = CardManager.getState();
           state.bgImage = ev.target.result;
           CardManager.setState(state);
-          // Reset input so same file can be selected again
           bgImageInput.value = '';
           console.log('✅ Background image uploaded and applied');
         };
@@ -570,7 +616,7 @@
   }
 
   // ============================================================
-  // 9. SET DEFAULT DATE/TIME
+  // 11. SET DEFAULT DATE/TIME
   // ============================================================
   const dateInput = document.getElementById('cardDate');
   const timeInput = document.getElementById('cardTime');
@@ -582,13 +628,15 @@
   }
 
   // ============================================================
-  // 10. FINAL UPDATE
+  // 12. APPLY TRANSLATIONS AND FINAL UPDATE
   // ============================================================
+  applyTranslations(); // Apply translations for the first time
+  
   setTimeout(() => {
     CardManager.updatePreview();
     MapManager.invalidateSize();
   }, 400);
 
-  console.log('🚀 PostCard Pro Studio v2.3 loaded successfully!');
-  console.log('❤️ Background upload fixed. Donation addresses ready.');
+  console.log('🚀 PostCard Pro Studio v2.4 loaded successfully with dynamic translations!');
+  console.log('❤️ UI translations are now fully dynamic.');
 })();
