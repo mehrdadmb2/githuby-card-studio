@@ -484,3 +484,100 @@ input[type="range"]::-webkit-slider-thumb {
   color: #fff !important;
 }
 /* 30+ gradient themes will be added via JS from manifest */
+
+
+/* ====== THEME CLASSES FOR EVENTS ====== */
+.theme-birthday {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #ffecd2 100%) !important;
+  color: #1a0a2e !important;
+  position: relative;
+}
+.theme-birthday::before {
+  content: "🎂🎈🎁🎉🥳🎊🎶💝";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 2.8rem;
+  opacity: 0.25;
+  white-space: nowrap;
+  transform: rotate(-3deg);
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1.4;
+}
+/* می‌توان کانفتی یا ایموجی‌های بیشتری با تکرار و چرخش اضافه کرد */
+
+.theme-reconcile {
+  background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%) !important;
+  color: #fff !important;
+}
+.theme-reconcile::before {
+  content: "🕊️🤝💕☮️✨";
+  font-size: 3.5rem;
+  opacity: 0.15;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.theme-love {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ff6b6b 100%) !important;
+  color: #2d1b2d !important;
+}
+.theme-love::before {
+  content: "❤️💖💕😍🌹💋✨";
+  font-size: 3.2rem;
+  opacity: 0.2;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.theme-outing {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
+  color: #0a2a1a !important;
+}
+.theme-outing::before {
+  content: "🚗🌄⛰️🌊✨🌿☀️";
+  font-size: 3rem;
+  opacity: 0.2;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.theme-miss {
+  background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%) !important;
+  color: #eef !important;
+}
+.theme-miss::before {
+  content: "🌙⭐💔😢📱🌃💭";
+  font-size: 3rem;
+  opacity: 0.2;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.theme-invite {
+  background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%) !important;
+  color: #2a1a00 !important;
+}
+.theme-invite::before {
+  content: "🎉📩🎊🥂✨🎈💌";
+  font-size: 3rem;
+  opacity: 0.25;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  pointer-events: none;
+  z-index: 0;
+}
