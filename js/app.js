@@ -1,14 +1,14 @@
 // ============================================================
-//  APP – Main entry point – with fallback translations
-//  Version 2.5 – added default translations for all keys
+//  APP – Main entry point – SIMPLE & RELIABLE
+//  Version 3.0 – Fixed emoji display, fallback translations
 // ============================================================
 (async function() {
   'use strict';
 
   // ============================================================
-  // 0. DEFAULT TRANSLATIONS (fallback if JSON missing)
+  // 0. FALLBACK TRANSLATIONS (without emojis – emojis are in HTML)
   // ============================================================
-  const DEFAULT_TRANSLATIONS = {
+  const FALLBACK = {
     "title_placeholder": "e.g. Let's Celebrate!",
     "message_placeholder": "Write your message...",
     "location_placeholder": "Address",
@@ -16,15 +16,15 @@
     "unknown": "Unknown",
     "no_date": "No date",
     "event_label": "Event Type",
-    "event_invite": "🎉 Invite",
-    "event_reconcile": "🤝 Reconcile",
-    "event_birthday": "🎂 Birthday",
-    "event_outing": "🚗 Outing",
-    "event_love": "❤️ Love",
-    "event_miss": "😢 Miss You",
-    "event_note": "📝 Note",
-    "event_poem": "📜 Poem",
-    "event_art": "🎨 Art",
+    "event_invite": "Invite",
+    "event_reconcile": "Reconcile",
+    "event_birthday": "Birthday",
+    "event_outing": "Outing",
+    "event_love": "Love",
+    "event_miss": "Miss You",
+    "event_note": "Note",
+    "event_poem": "Poem",
+    "event_art": "Art",
     "customize": "Customize",
     "preview": "Preview",
     "quick_templates": "Quick Templates",
@@ -34,28 +34,28 @@
     "donate_warning": "Important: Send only the specified token to each address. Sending the wrong token will result in permanent loss of funds.",
     "donate_thanks": "Thank you for your support! ❤️",
     "copy": "Copy",
-    "copied": "✓ Copied!",
+    "copied": "Copied!",
     "share_title": "PostCard Pro Studio",
     "share_text": "Check out my custom postcard!",
     "share_error": "Share API not supported on this browser. You can download the image instead.",
     "reset_confirm": "Reset all settings?",
     "mood_label": "Mood",
-    "mood_happy": "😊 Happy",
-    "mood_kind": "🥰 Kind",
-    "mood_angry": "😤 Angry",
-    "mood_bored": "😑 Bored",
-    "mood_love": "😍 Love",
-    "mood_sad": "😢 Sad",
-    "mood_excited": "🤩 Excited",
-    "mood_calm": "😌 Calm",
+    "mood_happy": "Happy",
+    "mood_kind": "Kind",
+    "mood_angry": "Angry",
+    "mood_bored": "Bored",
+    "mood_love": "Love",
+    "mood_sad": "Sad",
+    "mood_excited": "Excited",
+    "mood_calm": "Calm",
     "weather_label": "Weather",
-    "weather_sunny": "☀️ Sunny",
-    "weather_cloudy": "☁️ Cloudy",
-    "weather_rainy": "🌧️ Rainy",
-    "weather_snowy": "❄️ Snowy",
-    "weather_stormy": "⛈️ Stormy",
-    "weather_windy": "💨 Windy",
-    "weather_foggy": "🌫️ Foggy",
+    "weather_sunny": "Sunny",
+    "weather_cloudy": "Cloudy",
+    "weather_rainy": "Rainy",
+    "weather_snowy": "Snowy",
+    "weather_stormy": "Stormy",
+    "weather_windy": "Windy",
+    "weather_foggy": "Foggy",
     "border_label": "Border Style",
     "border_solid": "Solid",
     "border_dashed": "Dashed",
@@ -92,19 +92,19 @@
   await TemplateManager.loadTemplates();
   await BackgroundManager.loadBackgrounds();
 
-  // Set default language from localStorage or CONFIG
+  // Set default language
   const savedLang = localStorage.getItem('pcProLang') || CONFIG.DEFAULT_LANG;
   await LanguageManager.setLanguage(savedLang);
 
   // ============================================================
-  // 2. BUILD UI CONTROLS DYNAMICALLY
+  // 2. BUILD UI
   // ============================================================
   const headerControls = document.getElementById('headerControls');
   const controlsContainer = document.getElementById('controlsContainer');
   const templateGrid = document.getElementById('templateGrid');
   const donateContainer = document.getElementById('donateContainer');
 
-  // --- Header Controls ---
+  // --- Header ---
   headerControls.innerHTML = `
     <select id="themeSelect"></select>
     <select id="fontSelect"></select>
@@ -125,23 +125,20 @@
   FontManager.populateFontSelect(fontSelect);
   LanguageManager.populateLangSelect(langSelect);
 
-  // --- Donate Section ---
+  // --- Donate Modal ---
   donateContainer.innerHTML = `
     <div id="donateModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); backdrop-filter:blur(10px); z-index:9999; display:flex; align-items:center; justify-content:center;">
       <div style="background:rgba(20,20,35,0.96); border-radius:32px; padding:30px; max-width:550px; width:92%; max-height:80vh; overflow-y:auto; border:1px solid rgba(255,255,255,0.1); box-shadow:0 30px 80px rgba(0,0,0,0.9); position:relative;">
-        <button id="closeDonateModal" style="position:absolute; top:12px; right:16px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; opacity:0.6; transition:0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">&times;</button>
+        <button id="closeDonateModal" style="position:absolute; top:12px; right:16px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; opacity:0.6; transition:0.2s;">&times;</button>
         <h2 style="color:#fff; margin-bottom:16px;"><i class="fas fa-heart" style="color:#f5576c;"></i> <span data-i18n="donate_title">Support the Project</span></h2>
         <p style="color:#aaa; margin-bottom:16px; font-size:0.9rem;" data-i18n="donate_description">If you enjoy using PostCard Pro Studio, consider donating to keep the project alive! 🙏</p>
-        
         <div style="background:rgba(255,0,0,0.1); border-left:4px solid #ff4444; padding:10px 14px; border-radius:8px; margin-bottom:18px;">
           <p style="color:#ff6b6b; font-size:0.85rem; margin:0;" data-i18n="donate_warning">
             <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Send <strong>only</strong> the specified token to each address. 
             Sending the wrong token will result in <strong>permanent loss</strong> of funds.
           </p>
         </div>
-
         <div style="display:flex; flex-direction:column; gap:12px;">
-          <!-- BTC -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fab fa-bitcoin" style="color:#f7931a; font-size:1.8rem; width:32px;"></i>
             <div style="flex:1; min-width:0;">
@@ -151,9 +148,8 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="btc-address">bc1q6knq0g4w9axt7t204y3e4hk4kz4zkh8vxj2e3a</span>
             </div>
-            <button class="copyAddress" data-address="btc-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
+            <button class="copyAddress" data-address="btc-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem;"><span data-i18n="copy">Copy</span></button>
           </div>
-          <!-- ETH -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fab fa-ethereum" style="color:#627eea; font-size:1.8rem; width:32px;"></i>
             <div style="flex:1; min-width:0;">
@@ -163,9 +159,8 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="eth-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
             </div>
-            <button class="copyAddress" data-address="eth-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
+            <button class="copyAddress" data-address="eth-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem;"><span data-i18n="copy">Copy</span></button>
           </div>
-          <!-- SOL -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fab fa-solana" style="color:#9945ff; font-size:1.8rem; width:32px;"></i>
             <div style="flex:1; min-width:0;">
@@ -175,9 +170,8 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="sol-address">7otC7qwCWqmrzbVA3XykjsZHbuKgrqaP2hE25NnByRDP</span>
             </div>
-            <button class="copyAddress" data-address="sol-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
+            <button class="copyAddress" data-address="sol-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem;"><span data-i18n="copy">Copy</span></button>
           </div>
-          <!-- TRON -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fab fa-tron" style="color:#ef4444; font-size:1.8rem; width:32px;"></i>
             <div style="flex:1; min-width:0;">
@@ -187,9 +181,8 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="tron-address">TGYN1zzeGUjuXipVPvS4gTUivQyAu7GNUm</span>
             </div>
-            <button class="copyAddress" data-address="tron-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
+            <button class="copyAddress" data-address="tron-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem;"><span data-i18n="copy">Copy</span></button>
           </div>
-          <!-- BNB -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fas fa-coins" style="color:#f0b90b; font-size:1.8rem; width:32px;"></i>
             <div style="flex:1; min-width:0;">
@@ -199,9 +192,8 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="bnb-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
             </div>
-            <button class="copyAddress" data-address="bnb-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
+            <button class="copyAddress" data-address="bnb-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem;"><span data-i18n="copy">Copy</span></button>
           </div>
-          <!-- Polygon -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fas fa-hexagon" style="color:#8247e5; font-size:1.8rem; width:32px;"></i>
             <div style="flex:1; min-width:0;">
@@ -211,9 +203,8 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="polygon-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
             </div>
-            <button class="copyAddress" data-address="polygon-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
+            <button class="copyAddress" data-address="polygon-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem;"><span data-i18n="copy">Copy</span></button>
           </div>
-          <!-- TRC20 USDT -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fas fa-qrcode" style="color:#26a17b; font-size:1.8rem; width:32px;"></i>
             <div style="flex:1; min-width:0;">
@@ -223,9 +214,8 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="trc20-address">TYbqxzEWrvYPnLvGtk6JY6Sbh8DMqfjcYq</span>
             </div>
-            <button class="copyAddress" data-address="trc20-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
+            <button class="copyAddress" data-address="trc20-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem;"><span data-i18n="copy">Copy</span></button>
           </div>
-          <!-- TON -->
           <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
             <i class="fas fa-qrcode" style="color:#8b5cf6; font-size:1.8rem; width:32px;"></i>
             <div style="flex:1; min-width:0;">
@@ -235,7 +225,7 @@
               </div>
               <span style="color:#eee; font-size:0.75rem; word-break:break-all; display:block; margin-top:2px;" id="ton-address">UQBQU9KnjwIsdSGwG08b3L43Vy_wPlCg_3FaK9m4N2Toj84k</span>
             </div>
-            <button class="copyAddress" data-address="ton-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'"><span data-i18n="copy">Copy</span></button>
+            <button class="copyAddress" data-address="ton-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 14px; border-radius:30px; cursor:pointer; font-size:0.8rem;"><span data-i18n="copy">Copy</span></button>
           </div>
         </div>
         <p style="color:#666; margin-top:18px; font-size:0.7rem; text-align:center; border-top:1px solid rgba(255,255,255,0.05); padding-top:14px;">
@@ -261,12 +251,10 @@
   });
 
   donateModal.addEventListener('click', function(e) {
-    if (e.target === this) {
-      this.style.display = 'none';
-    }
+    if (e.target === this) this.style.display = 'none';
   });
 
-  // Copy address function
+  // Copy address
   document.querySelectorAll('.copyAddress').forEach(btn => {
     btn.addEventListener('click', function() {
       const id = this.dataset.address;
@@ -298,7 +286,7 @@
     });
   });
 
-  // --- Share Button ---
+  // --- Share ---
   shareBtn.addEventListener('click', function() {
     if (navigator.share) {
       const cardEl = document.getElementById('card-preview');
@@ -319,7 +307,7 @@
   });
 
   // ============================================================
-  // 3. BUILD CONTROLS WITH data-i18n ATTRIBUTES
+  // 3. BUILD CONTROLS (emojis are HARDCODED in HTML)
   // ============================================================
   controlsContainer.innerHTML = `
     <!-- Event Type -->
@@ -430,7 +418,7 @@
       </div>
     </div>
 
-    <!-- Background Image Upload -->
+    <!-- Background Image -->
     <div class="form-group">
       <label data-i18n="bg_image_label">🖼️ Background Image</label>
       <div class="bg-upload">
@@ -481,39 +469,48 @@
   `;
 
   // ============================================================
-  // 4. TRANSLATION FUNCTION (with fallback)
+  // 4. TRANSLATION FUNCTION (FIXED)
   // ============================================================
   function applyTranslations() {
     const lang = LanguageManager.getCurrentLang();
     
-    // Update all elements with data-i18n attribute (textContent)
+    // Update all elements with data-i18n attribute
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
-      // Try to get translation from LanguageManager (loaded JSON)
       let translation = LanguageManager.getString(key);
-      // If not found, use default translation
-      if (!translation) {
-        translation = DEFAULT_TRANSLATIONS[key] || key;
+      if (!translation || translation === key) {
+        translation = FALLBACK[key] || key;
       }
-      el.textContent = translation;
+      // Only replace the text part, keep emojis in the HTML
+      // If the element contains emojis, we keep them
+      // We only replace the text after the emoji
+      const currentText = el.textContent;
+      // Check if current text has emojis (like "🎉 Invite")
+      const emojiMatch = currentText.match(/^([\u{1F000}-\u{1FFFF}]|[\u2600-\u27BF]|[\u{2700}-\u{27BF}]|[🇦-🇿])+\s*/u);
+      if (emojiMatch) {
+        const emoji = emojiMatch[0];
+        el.textContent = emoji + ' ' + translation;
+      } else {
+        el.textContent = translation;
+      }
     });
 
-    // Update all elements with data-i18n-placeholder attribute (placeholder)
+    // Update placeholders
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
       const key = el.getAttribute('data-i18n-placeholder');
       let translation = LanguageManager.getString(key);
-      if (!translation) {
-        translation = DEFAULT_TRANSLATIONS[key] || key;
+      if (!translation || translation === key) {
+        translation = FALLBACK[key] || key;
       }
       el.placeholder = translation;
     });
 
-    // Update title attribute for buttons and other elements
+    // Update titles
     document.querySelectorAll('[data-i18n-title]').forEach(el => {
       const key = el.getAttribute('data-i18n-title');
       let translation = LanguageManager.getString(key);
-      if (!translation) {
-        translation = DEFAULT_TRANSLATIONS[key] || key;
+      if (!translation || translation === key) {
+        translation = FALLBACK[key] || key;
       }
       el.title = translation;
     });
@@ -563,18 +560,15 @@
     const template = await TemplateManager.loadTemplate(templateId);
     if (!template) return;
 
-    // Title
     const titleInput = document.getElementById('cardTitle');
     if (titleInput) titleInput.value = template.title || '';
 
-    // Text
     const textArea = document.getElementById('cardText');
     if (textArea) {
       const text = template.text && template.text[lang] ? template.text[lang] : (template.text ? template.text.en : '');
       textArea.value = text || '';
     }
 
-    // Emojis
     if (template.emojis && Array.isArray(template.emojis)) {
       const state = CardManager.getState();
       state.emojis = template.emojis;
@@ -587,39 +581,28 @@
       CardManager.setState(state);
     }
 
-    // Theme
     if (template.theme) {
-      const themeSelect = document.getElementById('themeSelect');
-      if (themeSelect) {
-        themeSelect.value = template.theme;
-      }
+      themeSelect.value = template.theme;
       const cardPreview = document.getElementById('card-preview');
-      if (cardPreview) {
-        ThemeManager.applyTheme(template.theme, cardPreview);
-      }
+      if (cardPreview) ThemeManager.applyTheme(template.theme, cardPreview);
       const state = CardManager.getState();
       state.theme = template.theme;
       CardManager.setState(state);
     }
 
-    // Event Type
     const eventSelect = document.getElementById('eventType');
-    if (eventSelect && templateId) {
-      eventSelect.value = templateId;
-    }
+    if (eventSelect && templateId) eventSelect.value = templateId;
 
     CardManager.updatePreview();
   });
 
   // ============================================================
-  // 8. EVENT LISTENERS FOR HEADER CONTROLS
+  // 8. EVENT LISTENERS
   // ============================================================
   themeSelect.addEventListener('change', async function() {
     const themeId = this.value;
     const cardPreview = document.getElementById('card-preview');
-    if (cardPreview) {
-      ThemeManager.applyTheme(themeId, cardPreview);
-    }
+    if (cardPreview) ThemeManager.applyTheme(themeId, cardPreview);
     const state = CardManager.getState();
     state.theme = themeId;
     CardManager.setState(state);
@@ -635,12 +618,12 @@
     const langId = this.value;
     await LanguageManager.setLanguage(langId);
     localStorage.setItem('pcProLang', langId);
-    applyTranslations(); // Translate UI
-    CardManager.updatePreview(); // Update card content with new language
+    applyTranslations();
+    CardManager.updatePreview();
   });
 
   resetBtn.addEventListener('click', function() {
-    const msg = LanguageManager.getString('reset_confirm') || DEFAULT_TRANSLATIONS.reset_confirm || 'Reset all settings?';
+    const msg = LanguageManager.getString('reset_confirm') || FALLBACK.reset_confirm;
     if (confirm(msg)) {
       localStorage.removeItem(CONFIG.CARD_STORAGE_KEY);
       location.reload();
@@ -648,56 +631,44 @@
   });
 
   // ============================================================
-  // 9. EXPORT BUTTONS
+  // 9. EXPORT
   // ============================================================
   document.getElementById('downloadImageBtn').addEventListener('click', function() {
-    const cardEl = document.getElementById('card-preview');
-    ExportManager.exportImage(cardEl);
+    ExportManager.exportImage(document.getElementById('card-preview'));
   });
-
   document.getElementById('downloadPdfBtn').addEventListener('click', function() {
-    const cardEl = document.getElementById('card-preview');
-    ExportManager.exportPDF(cardEl);
+    ExportManager.exportPDF(document.getElementById('card-preview'));
   });
-
   document.getElementById('printBtn').addEventListener('click', function() {
     ExportManager.printCard();
   });
 
   // ============================================================
-  // 10. BACKGROUND IMAGE UPLOAD
+  // 10. BACKGROUND IMAGE
   // ============================================================
-  const bgImageInput = document.getElementById('bgImageInput');
-  if (bgImageInput) {
-    bgImageInput.addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(ev) {
-          const state = CardManager.getState();
-          state.bgImage = ev.target.result;
-          CardManager.setState(state);
-          bgImageInput.value = '';
-          console.log('✅ Background image uploaded and applied');
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  }
+  document.getElementById('bgImageInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const state = CardManager.getState();
+        state.bgImage = ev.target.result;
+        CardManager.setState(state);
+        this.value = '';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 
-  const removeBgBtn = document.getElementById('removeBgBtn');
-  if (removeBgBtn) {
-    removeBgBtn.addEventListener('click', function() {
-      const state = CardManager.getState();
-      state.bgImage = null;
-      document.getElementById('bgImageInput').value = '';
-      CardManager.setState(state);
-      console.log('✅ Background image removed');
-    });
-  }
+  document.getElementById('removeBgBtn').addEventListener('click', function() {
+    const state = CardManager.getState();
+    state.bgImage = null;
+    document.getElementById('bgImageInput').value = '';
+    CardManager.setState(state);
+  });
 
   // ============================================================
-  // 11. SET DEFAULT DATE/TIME
+  // 11. DEFAULT DATE/TIME
   // ============================================================
   const dateInput = document.getElementById('cardDate');
   const timeInput = document.getElementById('cardTime');
@@ -709,15 +680,15 @@
   }
 
   // ============================================================
-  // 12. APPLY TRANSLATIONS AND FINAL UPDATE
+  // 12. FINAL INIT
   // ============================================================
-  applyTranslations(); // Apply translations for the first time (with fallback)
+  applyTranslations();
   
   setTimeout(() => {
     CardManager.updatePreview();
     MapManager.invalidateSize();
   }, 400);
 
-  console.log('🚀 PostCard Pro Studio v2.5 loaded successfully with fallback translations!');
-  console.log('❤️ All UI translations are now fully functional with fallback.');
+  console.log('🚀 PostCard Pro Studio v3.0 loaded successfully!');
+  console.log('✅ Emojis are now fixed in the UI.');
 })();
