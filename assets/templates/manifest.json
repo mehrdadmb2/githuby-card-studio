@@ -1,0 +1,10 @@
+{
+  "templates": [
+    { "id": "birthday", "label": "🎂 Birthday" },
+    { "id": "reconcile", "label": "🤝 Reconcile" },
+    { "id": "love", "label": "❤️ Love" },
+    { "id": "outing", "label": "🚗 Outing" },
+    { "id": "miss", "label": "😢 Miss You" },
+    { "id": "invite", "label": "🎉 Invite" }
+  ]
+}
