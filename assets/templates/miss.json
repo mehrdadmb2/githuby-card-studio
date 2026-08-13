@@ -1,0 +1,12 @@
+{
+  "title": "😢 I Miss You",
+  "emojis": ["😢", "💔", "🌙", "⭐", "📱", "🌃", "💭"],
+  "theme": "miss",
+  "text": {
+    "en": "I miss you so much. I can't wait to see you again. Every moment without you feels incomplete. 💔",
+    "fa": "دلم برایت خیلی تنگ شده. بی‌صبرانه منتظر دیدار تو هستم. هر لحظه بدون تو ناقص است. 💔",
+    "de": "Ich vermisse dich so sehr. Ich kann es kaum erwarten, dich wiederzusehen. Jeder Moment ohne dich fühlt sich unvollständig an. 💔",
+    "ru": "Я так скучаю по тебе. Не могу дождаться встречи. Каждый момент без тебя кажется неполным. 💔",
+    "ja": "すごく会いたい。早く会いたいよ。あなたなしの時間は全て不完全に感じる。 💔"
+  }
+}
