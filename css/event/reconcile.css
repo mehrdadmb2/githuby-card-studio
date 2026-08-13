@@ -1,0 +1,15 @@
+.theme-reconcile {
+  background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%) !important;
+  color: #fff !important;
+  position: relative;
+}
+.theme-reconcile::before {
+  content: "🕊️🤝💕☮️✨";
+  font-size: 3.5rem;
+  opacity: 0.15;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  pointer-events: none;
+  z-index: 0;
+}
