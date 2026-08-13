@@ -14,5 +14,4 @@ const CONFIG = {
   CARD_STORAGE_KEY: 'pcProState',
 };
 
-// Export for other modules (using global)
 window.CONFIG = CONFIG;
