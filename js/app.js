@@ -1,26 +1,34 @@
-// ================================================================
+// ============================================================
 //  APP – Main entry point, orchestrates all modules
-//  Version: 2.0 (Full Dynamic Template Support)
-// ================================================================
+//  Version 2.0 – with Donate, Share, Animations & Advanced UI
+// ============================================================
 (async function() {
   'use strict';
 
-  // 1. Load all manifests
+  // ============================================================
+  // 1. LOAD ALL MANIFESTS
+  // ============================================================
   await ThemeManager.loadThemes();
   await FontManager.loadFonts();
   await LanguageManager.loadLanguages();
   await TemplateManager.loadTemplates();
   await BackgroundManager.loadBackgrounds();
 
-  // 2. Build UI controls dynamically
+  // ============================================================
+  // 2. BUILD UI CONTROLS DYNAMICALLY
+  // ============================================================
   const headerControls = document.getElementById('headerControls');
   const controlsContainer = document.getElementById('controlsContainer');
+  const templateGrid = document.getElementById('templateGrid');
+  const donateContainer = document.getElementById('donateContainer');
 
-  // --- Header controls: Theme, Font, Language, Reset ---
+  // --- Header Controls ---
   headerControls.innerHTML = `
     <select id="themeSelect"></select>
     <select id="fontSelect"></select>
     <select id="langSelect"></select>
+    <button id="shareBtn" title="Share Postcard"><i class="fas fa-share-alt"></i></button>
+    <button id="donateBtn" title="Support this project"><i class="fas fa-heart"></i> Donate</button>
     <button id="resetBtn"><i class="fas fa-undo-alt"></i> Reset</button>
   `;
 
@@ -28,10 +36,130 @@
   const fontSelect = document.getElementById('fontSelect');
   const langSelect = document.getElementById('langSelect');
   const resetBtn = document.getElementById('resetBtn');
+  const shareBtn = document.getElementById('shareBtn');
+  const donateBtn = document.getElementById('donateBtn');
 
   ThemeManager.populateThemeSelect(themeSelect);
   FontManager.populateFontSelect(fontSelect);
   LanguageManager.populateLangSelect(langSelect);
+
+  // --- Donate Section (initially hidden, shown on button click) ---
+  donateContainer.innerHTML = `
+    <div id="donateModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); z-index:9999; display:flex; align-items:center; justify-content:center;">
+      <div style="background:rgba(20,20,35,0.95); border-radius:32px; padding:30px; max-width:500px; width:90%; max-height:80vh; overflow-y:auto; border:1px solid rgba(255,255,255,0.1); box-shadow:0 30px 80px rgba(0,0,0,0.8); position:relative;">
+        <button id="closeDonateModal" style="position:absolute; top:12px; right:16px; background:none; border:none; color:#fff; font-size:1.8rem; cursor:pointer;">&times;</button>
+        <h2 style="color:#fff; margin-bottom:20px;"><i class="fas fa-heart" style="color:#f5576c;"></i> Support the Project</h2>
+        <p style="color:#aaa; margin-bottom:20px;">If you enjoy using PostCard Pro Studio, consider donating to keep the project alive! 🙏</p>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <!-- Donation addresses -->
+          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
+            <i class="fab fa-bitcoin" style="color:#f7931a; font-size:1.8rem; width:32px;"></i>
+            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="btc-address">bc1q6knq0g4w9axt7t204y3e4hk4kz4zkh8vxj2e3a</span>
+            <button class="copyAddress" data-address="btc-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
+            <i class="fab fa-ethereum" style="color:#627eea; font-size:1.8rem; width:32px;"></i>
+            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="eth-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
+            <button class="copyAddress" data-address="eth-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
+            <i class="fab fa-solana" style="color:#9945ff; font-size:1.8rem; width:32px;"></i>
+            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="sol-address">7otC7qwCWqmrzbVA3XykjsZHbuKgrqaP2hE25NnByRDP</span>
+            <button class="copyAddress" data-address="sol-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
+            <i class="fab fa-tron" style="color:#ef4444; font-size:1.8rem; width:32px;"></i>
+            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="tron-address">TGYN1zzeGUjuXipVPvS4gTUivQyAu7GNUm</span>
+            <button class="copyAddress" data-address="tron-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
+            <i class="fas fa-coins" style="color:#ffd700; font-size:1.8rem; width:32px;"></i>
+            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="bnb-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
+            <button class="copyAddress" data-address="bnb-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
+            <i class="fas fa-hexagon" style="color:#8247e5; font-size:1.8rem; width:32px;"></i>
+            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="polygon-address">0x968C2fD883a2004276f5e627Fe38654137601c51</span>
+            <button class="copyAddress" data-address="polygon-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
+            <i class="fas fa-qrcode" style="color:#26a17b; font-size:1.8rem; width:32px;"></i>
+            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="trc20-address">TYbqxzEWrvYPnLvGtk6JY6Sbh8DMqfjcYq</span>
+            <button class="copyAddress" data-address="trc20-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
+            <i class="fas fa-qrcode" style="color:#8b5cf6; font-size:1.8rem; width:32px;"></i>
+            <span style="color:#eee; font-size:0.8rem; word-break:break-all; flex:1;" id="ton-address">UQBQU9KnjwIsdSGwG08b3L43Vy_wPlCg_3FaK9m4N2Toj84k</span>
+            <button class="copyAddress" data-address="ton-address" style="background:rgba(255,255,255,0.06); border:none; color:#aaa; padding:4px 12px; border-radius:30px; cursor:pointer; font-size:0.8rem;">Copy</button>
+          </div>
+        </div>
+        <p style="color:#666; margin-top:16px; font-size:0.7rem; text-align:center;">Thank you for your support! ❤️</p>
+      </div>
+    </div>
+  `;
+
+  // --- Donate Modal Logic ---
+  let donateModal = document.getElementById('donateModal');
+  donateModal.style.display = 'none';
+
+  donateBtn.addEventListener('click', function() {
+    donateModal.style.display = 'flex';
+  });
+
+  document.getElementById('closeDonateModal').addEventListener('click', function() {
+    donateModal.style.display = 'none';
+  });
+
+  donateModal.addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.style.display = 'none';
+    }
+  });
+
+  // Copy address function
+  document.querySelectorAll('.copyAddress').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = this.dataset.address;
+      const span = document.getElementById(id);
+      if (span) {
+        navigator.clipboard.writeText(span.textContent).then(() => {
+          const original = this.textContent;
+          this.textContent = '✓ Copied!';
+          setTimeout(() => { this.textContent = original; }, 1500);
+        }).catch(() => {
+          // fallback
+          const range = document.createRange();
+          range.selectNode(span);
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(range);
+          document.execCommand('copy');
+          const original = this.textContent;
+          this.textContent = '✓ Copied!';
+          setTimeout(() => { this.textContent = original; }, 1500);
+        });
+      }
+    });
+  });
+
+  // --- Share Button ---
+  shareBtn.addEventListener('click', function() {
+    if (navigator.share) {
+      const cardEl = document.getElementById('card-preview');
+      html2canvas(cardEl, { scale: 1.5, useCORS: true, backgroundColor: null, logging: false })
+        .then(canvas => {
+          canvas.toBlob(blob => {
+            const file = new File([blob], 'postcard.png', { type: 'image/png' });
+            navigator.share({
+              title: 'PostCard Pro Studio',
+              text: 'Check out my custom postcard!',
+              files: [file]
+            }).catch(err => console.log('Share cancelled', err));
+          });
+        });
+    } else {
+      alert('Share API not supported on this browser. You can download the image instead.');
+    }
+  });
 
   // --- Controls Panel (all form groups) ---
   controlsContainer.innerHTML = `
@@ -155,12 +283,12 @@
     <!-- Advanced Styling -->
     <div class="form-group">
       <label>Font Size (px)</label>
-      <input type="range" id="fontSizeRange" min="12" max="36" value="18" />
+      <input type="range" id="fontSizeRange" min="12" max="48" value="18" />
       <span id="fontSizeLabel">18px</span>
     </div>
     <div class="form-group">
       <label>Line Height</label>
-      <input type="range" id="lineHeightRange" min="1.2" max="2.8" step="0.1" value="1.7" />
+      <input type="range" id="lineHeightRange" min="1.0" max="3.0" step="0.1" value="1.7" />
       <span id="lineHeightLabel">1.7</span>
     </div>
     <div class="form-group">
@@ -169,12 +297,12 @@
     </div>
     <div class="form-group">
       <label>Shadow (px)</label>
-      <input type="range" id="shadowRange" min="0" max="30" value="8" />
+      <input type="range" id="shadowRange" min="0" max="40" value="8" />
       <span id="shadowLabel">8px</span>
     </div>
     <div class="form-group">
       <label>Opacity</label>
-      <input type="range" id="opacityRange" min="0.3" max="1.0" step="0.05" value="0.95" />
+      <input type="range" id="opacityRange" min="0.2" max="1.0" step="0.05" value="0.95" />
       <span id="opacityLabel">0.95</span>
     </div>
 
@@ -193,14 +321,18 @@
     </div>
   `;
 
-  // 3. Initialize Map
+  // ============================================================
+  // 3. INITIALIZE MAP
+  // ============================================================
   MapManager.init('map', 35.6892, 51.3890, (lat, lng) => {
     document.getElementById('latInput').value = lat.toFixed(6);
     document.getElementById('lngInput').value = lng.toFixed(6);
     CardManager.updatePreview();
   });
 
-  // 4. Initialize Card Manager with all elements
+  // ============================================================
+  // 4. CARD MANAGER
+  // ============================================================
   const cardElements = {
     title: document.getElementById('cardTitle'),
     text: document.getElementById('cardText'),
@@ -225,48 +357,39 @@
   };
   CardManager.init(cardElements);
 
-  // 5. Template Manager – render buttons with full template support
-  const templateGrid = document.getElementById('templateGrid');
+  // ============================================================
+  // 5. TEMPLATE MANAGER
+  // ============================================================
   TemplateManager.renderTemplateButtons(templateGrid, async (templateId) => {
     const lang = LanguageManager.getCurrentLang();
     const template = await TemplateManager.loadTemplate(templateId);
     if (!template) return;
 
-    // --- Apply all template data ---
-
-    // 1. Title
+    // Title
     const titleInput = document.getElementById('cardTitle');
-    if (titleInput && template.title) {
-      titleInput.value = template.title;
-    }
+    if (titleInput) titleInput.value = template.title || '';
 
-    // 2. Text (with language support)
+    // Text
     const textArea = document.getElementById('cardText');
     if (textArea) {
-      let text = '';
-      if (template.text && typeof template.text === 'object') {
-        text = template.text[lang] || template.text.en || '';
-      }
-      textArea.value = text;
+      const text = template.text && template.text[lang] ? template.text[lang] : (template.text ? template.text.en : '');
+      textArea.value = text || '';
     }
 
-    // 3. Emojis (preset)
+    // Emojis
     if (template.emojis && Array.isArray(template.emojis)) {
       const state = CardManager.getState();
       state.emojis = template.emojis;
-      
-      // Update emoji picker visual selection
       const emojiPicker = document.getElementById('emojiPicker');
       if (emojiPicker) {
         emojiPicker.querySelectorAll('span').forEach(el => {
           el.classList.toggle('selected-emoji', state.emojis.includes(el.textContent));
         });
       }
-      
       CardManager.setState(state);
     }
 
-    // 4. Theme
+    // Theme
     if (template.theme) {
       const themeSelect = document.getElementById('themeSelect');
       if (themeSelect) {
@@ -277,33 +400,18 @@
       }
     }
 
-    // 5. Update event type dropdown
+    // Event Type
     const eventSelect = document.getElementById('eventType');
-    if (eventSelect) {
-      // Map template id to event type (they match in our setup)
-      // but we also allow custom mapping
-      const eventMap = {
-        'birthday': 'birthday',
-        'reconcile': 'reconcile',
-        'love': 'love',
-        'outing': 'outing',
-        'miss': 'miss',
-        'invite': 'invite'
-      };
-      const eventValue = eventMap[templateId] || templateId;
-      if (eventSelect.querySelector(`option[value="${eventValue}"]`)) {
-        eventSelect.value = eventValue;
-      }
+    if (eventSelect && templateId) {
+      eventSelect.value = templateId;
     }
 
-    // 6. Force a full preview update
     CardManager.updatePreview();
-
-    // 7. Save state to persist
-    CardManager.saveState?.();
   });
 
-  // 6. Event listeners for header controls
+  // ============================================================
+  // 6. EVENT LISTENERS FOR HEADER CONTROLS
+  // ============================================================
   themeSelect.addEventListener('change', function() {
     const state = CardManager.getState();
     state.theme = this.value;
@@ -318,8 +426,6 @@
 
   langSelect.addEventListener('change', async function() {
     await LanguageManager.setLanguage(this.value);
-    // Optionally re-render templates with new language
-    // For now, just update preview
     CardManager.updatePreview();
   });
 
@@ -330,20 +436,26 @@
     }
   });
 
-  // 7. Export buttons
+  // ============================================================
+  // 7. EXPORT BUTTONS
+  // ============================================================
   document.getElementById('downloadImageBtn').addEventListener('click', function() {
     const cardEl = document.getElementById('card-preview');
     ExportManager.exportImage(cardEl);
   });
+
   document.getElementById('downloadPdfBtn').addEventListener('click', function() {
     const cardEl = document.getElementById('card-preview');
     ExportManager.exportPDF(cardEl);
   });
+
   document.getElementById('printBtn').addEventListener('click', function() {
     ExportManager.printCard();
   });
 
-  // 8. Remove background button
+  // ============================================================
+  // 8. REMOVE BACKGROUND BUTTON
+  // ============================================================
   document.getElementById('removeBgBtn').addEventListener('click', function() {
     const state = CardManager.getState();
     state.bgImage = null;
@@ -351,7 +463,9 @@
     CardManager.setState(state);
   });
 
-  // 9. Set default date/time if empty
+  // ============================================================
+  // 9. SET DEFAULT DATE/TIME
+  // ============================================================
   const dateInput = document.getElementById('cardDate');
   const timeInput = document.getElementById('cardTime');
   if (dateInput && !dateInput.value) {
@@ -361,18 +475,14 @@
     timeInput.value = new Date().toTimeString().slice(0, 5);
   }
 
-  // 10. Update preview after everything is loaded
+  // ============================================================
+  // 10. FINAL UPDATE
+  // ============================================================
   setTimeout(() => {
     CardManager.updatePreview();
     MapManager.invalidateSize();
-  }, 300);
+  }, 400);
 
-  // 11. Load saved state (after all UI is ready)
-  // CardManager.init already loads state, but we ensure it's applied
-  setTimeout(() => {
-    CardManager.updatePreview();
-  }, 500);
-
-  console.log('🚀 PostCard Pro Studio loaded successfully!');
-  console.log('ℹ️  Dynamic templates with full emoji & theme support enabled.');
+  console.log('🚀 PostCard Pro Studio v2.0 loaded successfully!');
+  console.log('❤️ Donation addresses ready. Thank you for your support!');
 })();
