@@ -1,0 +1,15 @@
+.theme-outing {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
+  color: #0a2a1a !important;
+  position: relative;
+}
+.theme-outing::before {
+  content: "🚗🌄⛰️🌊✨🌿☀️";
+  font-size: 3rem;
+  opacity: 0.2;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  pointer-events: none;
+  z-index: 0;
+}
