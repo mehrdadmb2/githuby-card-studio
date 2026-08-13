@@ -1,0 +1,19 @@
+{
+  "fonts": [
+    { "id": "Roboto", "label": "Roboto", "category": "English" },
+    { "id": "Open Sans", "label": "Open Sans", "category": "English" },
+    { "id": "Lato", "label": "Lato", "category": "English" },
+    { "id": "Montserrat", "label": "Montserrat", "category": "English" },
+    { "id": "Playfair Display", "label": "Playfair Display", "category": "English" },
+    { "id": "Dancing Script", "label": "Dancing Script", "category": "English" },
+    { "id": "Great Vibes", "label": "Great Vibes", "category": "English" },
+    { "id": "Pacifico", "label": "Pacifico", "category": "English" },
+    { "id": "Vazirmatn", "label": "وزیرمتن", "category": "فارسی" },
+    { "id": "Amiri", "label": "امیری", "category": "فارسی" },
+    { "id": "Cairo", "label": "قاهره", "category": "فارسی" },
+    { "id": "El Messiri", "label": "المسیری", "category": "فارسی" },
+    { "id": "Noto Sans JP", "label": "Noto Sans JP", "category": "日本語" },
+    { "id": "Noto Sans SC", "label": "Noto Sans SC", "category": "中文" },
+    { "id": "Noto Sans", "label": "Noto Sans (Cyrillic)", "category": "Русский" }
+  ]
+}
